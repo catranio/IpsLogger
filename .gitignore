@@ -1,0 +1,5 @@
+# cmake
+cmake-build*
+
+# Other
+libs/common
