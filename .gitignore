@@ -1,5 +1,6 @@
 # cmake
 cmake-build*
 
-# Other
+# dependencies
 libs/common
+libs/fmt
