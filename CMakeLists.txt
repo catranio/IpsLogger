@@ -22,7 +22,7 @@ ips_init(${PROJECT_NAME} CXX 17)
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG 9.1.0
-        SOURCE_DIR ${LIBS_SOURCE_DIR}/fmt)
+        SOURCE_DIR ${LIBS_SOURCE_DIR}/fmt/)
 FetchContent_MakeAvailable(fmt)
 
 ips_add_target(${PROJECT_NAME} STATIC
