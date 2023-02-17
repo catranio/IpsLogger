@@ -2,12 +2,18 @@
 #define IPSLOGGER_DATEFORMATTER_HPP
 
 #include <ips/logger/formatter.hpp>
+#include <ips/logger/definitions.hpp>
 
-namespace ips::logger
+#include <string_view>
+
+namespace ips::logger::ditails
 {
     class DateFormatter : public Formatter {
     public:
-        virtual std::string fmt(const Recorder& recorder) noexcept override final;
+        std::string fmt(const Recorder& recorder) noexcept final;
+
+    private:
+        constexpr static std::string_view to_string(Severity severity) noexcept;
     };
 }
 

@@ -3,7 +3,6 @@
 
 #include "definitions.hpp"
 
-#include <string>
 #include <string_view>
 #include <exception>
 #include <chrono>
@@ -13,6 +12,10 @@
 namespace ips::logger
 {
     class Recorder final {
+    public:
+        using timestamp_t = std::chrono::system_clock::time_point;
+        using message_buffer_t = fmt::memory_buffer;
+
     public:
         Recorder(Severity severity, level_t level, id_t id);
         ~Recorder();
@@ -51,17 +54,18 @@ namespace ips::logger
         Recorder& operator<<(bool value) noexcept;
         Recorder& operator<<(const std::exception& value) noexcept;
 
-        auto getTimestamp() const noexcept;
-        constexpr Severity getSeverity() const noexcept;
-        constexpr level_t getLevel() const noexcept;
-        std::string getBuffer() const noexcept;
+        [[nodiscard]] timestamp_t getTimestamp() const noexcept;
+        [[nodiscard]] Severity getSeverity() const noexcept;
+        [[nodiscard]] level_t getLevel() const noexcept;
+        [[nodiscard]] std::string_view getBuffer() const noexcept;
+        [[nodiscard]] id_t getLoggerId() const noexcept;
 
     private:
         const Severity severity_;
         const level_t level_;
         const id_t id_;
-        fmt::memory_buffer buffer_; // maybe inject this by fastPimpl
-        std::chrono::system_clock::duration timestamp_;
+        message_buffer_t buffer_; // maybe inject this by fastPimpl
+        timestamp_t timestamp_;
     };
 }
 

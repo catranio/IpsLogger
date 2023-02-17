@@ -1,5 +1,6 @@
 
 #include <ips/logger/recorder.hpp>
+#include <ips/logger/ditails/storageLoggers.hpp>
 
 #include <fmt/format.h>
 
@@ -13,12 +14,12 @@ Recorder::Recorder(Severity severity, level_t level, id_t id) :
         id_(id),
         buffer_() {
     buffer_.reserve(kBufferSize);
-    timestamp_ = std::chrono::system_clock::now().time_since_epoch();
+    timestamp_ = std::chrono::system_clock::now();
 }
 
 
 Recorder::~Recorder() {
-
+    detail::StorageLoggers::write(*this);
 }
 
 Recorder& Recorder::operator<<(char value) noexcept {
@@ -66,18 +67,22 @@ Recorder& Recorder::operator<<(const std::exception& value) noexcept {
     return *this;
 }
 
-auto Recorder::getTimestamp() const noexcept {
+ips::logger::Recorder::timestamp_t Recorder::getTimestamp() const noexcept {
     return timestamp_;
 }
 
-constexpr Severity Recorder::getSeverity() const noexcept {
+Severity Recorder::getSeverity() const noexcept {
     return severity_;
 }
 
-constexpr level_t Recorder::getLevel() const noexcept {
+level_t Recorder::getLevel() const noexcept {
     return level_;
 }
 
-std::string Recorder::getBuffer() const noexcept {
-    return fmt::to_string(buffer_);
+std::string_view Recorder::getBuffer() const noexcept {
+    return buffer_.data();
+}
+
+id_t Recorder::getLoggerId() const noexcept {
+    return id_;
 }
