@@ -2,11 +2,13 @@
 #include <ips/logger/recorder.hpp>
 #include <ips/logger/ditails/storageLoggers.hpp>
 
+#include <chrono>
+
 #include <fmt/format.h>
 
 using namespace ips::logger;
 
-constexpr static size_t kBufferSize = 1024;
+constexpr static std::size_t kBufferSize = 1024;
 
 Recorder::Recorder(Severity severity, level_t level, id_t id) :
         severity_(severity),
@@ -14,7 +16,7 @@ Recorder::Recorder(Severity severity, level_t level, id_t id) :
         id_(id),
         buffer_() {
     buffer_.reserve(kBufferSize);
-    timestamp_ = std::chrono::system_clock::now();
+    timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
 }
 
 

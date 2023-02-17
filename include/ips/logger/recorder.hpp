@@ -5,16 +5,14 @@
 
 #include <string_view>
 #include <exception>
-#include <chrono>
-
-#include <fmt/format.h>
+#include <string>
 
 namespace ips::logger
 {
     class Recorder final {
     public:
-        using timestamp_t = std::chrono::system_clock::time_point;
-        using message_buffer_t = fmt::memory_buffer;
+        using timestamp_t = long long;
+        using message_buffer_t = std::string;
 
     public:
         Recorder(Severity severity, level_t level, id_t id);
@@ -64,7 +62,7 @@ namespace ips::logger
         const Severity severity_;
         const level_t level_;
         const id_t id_;
-        message_buffer_t buffer_; // maybe inject this by fastPimpl
+        message_buffer_t buffer_;
         timestamp_t timestamp_;
     };
 }

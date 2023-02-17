@@ -3,7 +3,7 @@
 
 #include <ips/logger/writer.hpp>
 
-#include <fstream>
+#include <memory>
 
 namespace ips::logger::ditails
 {
@@ -15,7 +15,7 @@ namespace ips::logger::ditails
         void write(std::string_view data) noexcept final;
 
     private:
-        std::ofstream file_;
+        std::unique_ptr<std::ofstream> file_;
     };
 }
 
