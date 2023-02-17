@@ -7,7 +7,7 @@ namespace ips::logger
 {
     class Writer {
     public:
-        virtual ~Writer() = 0;
+        virtual ~Writer() = default;
 
         virtual void write(std::string_view data) = 0;
     };

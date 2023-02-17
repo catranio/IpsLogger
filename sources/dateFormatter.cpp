@@ -7,8 +7,9 @@
 using namespace ips::logger::ditails;
 
 std::string DateFormatter::fmt(const Recorder &recorder) noexcept {
-    return fmt::format("{[:%Y.:%m.:%d :%H:%M:%S] {1}({2}) {3}\n}",
-                       recorder.getTimestamp(),
+	std::chrono::microseconds mc(recorder.getTimestamp().time_since_epoch().count());
+    return fmt::format("[{:%Y.%m.%d %H:%M:}{:%S}] {}({}): {}\n",
+					   recorder.getTimestamp(), mc,
                        to_string(recorder.getSeverity()),
                        recorder.getLevel(),
                        recorder.getBuffer());

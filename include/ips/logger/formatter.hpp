@@ -9,7 +9,7 @@ namespace ips::logger
 
     class Formatter {
     public:
-        virtual ~Formatter() = 0;
+        virtual ~Formatter() = default;
 
         virtual std::string fmt(const Recorder& recorder) noexcept = 0;
     };

@@ -5,8 +5,8 @@
 #define IPS_LOGGER_ENABLE true
 #endif /* IPS_LOGGER_ENABLE */
 
-#define ipslog(IPS_LOGGER_ENABLE) if (IPS_LOGGER_ENABLE) else ips::logger
-#define ipslogc(ENABLE_LOG_CONDITION) if (IPS_LOGGER_ENABLE && IPS_LOGGER_ENABLE) else ips::logger
+#define ipslog if (!IPS_LOGGER_ENABLE) {} else ips::logger
+#define ipslogc(ENABLE_LOG_CONDITION) if (!IPS_LOGGER_ENABLE && !IPS_LOGGER_ENABLE) {} else ips::logger
 
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/formatter.hpp>
@@ -15,18 +15,18 @@
 
 namespace ips::logger
 {
-    [[maybe_unused]] inline void init(const std::string& filename, Severity severity,
+    [[maybe_unused]] void init(const std::string& filename, Severity severity,
                      level_t level = kMaxLevelDefault, id_t id = kIdDefault) noexcept;
 
     [[maybe_unused]] inline void uninit(id_t id) noexcept;
 
     inline Recorder log(Severity severity, level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder fatal(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder error(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder warning(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder info(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder trace(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
-    [[maybe_unused]] inline Recorder debug(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder error(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder warning(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder info(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder trace(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
+    [[maybe_unused]] Recorder debug(level_t level = kLevelDefault, id_t id = kIdDefault) noexcept;
 
 }
 

@@ -3,6 +3,8 @@
 #include <ips/logger/formatter.hpp>
 #include <ips/logger/recorder.hpp>
 
+#include <iostream>
+
 using namespace ips::logger::detail;
 
 void StorageLoggers::add(id_t id, level_t maxLevel, Severity severity,
@@ -44,7 +46,7 @@ StorageLoggers& StorageLoggers::instance() noexcept {
 }
 
 bool StorageLoggers::isWrite(const Recorder& recorder, const SettingsLoggger& settings) noexcept {
-    return (recorder.getSeverity() == Severity::ALL
+    return (settings.severity == Severity::ALL
         || recorder.getSeverity() == settings.severity)
-        && recorder.getLevel() < settings.maxLevel;
+        && recorder.getLevel() <= settings.maxLevel;
 }
