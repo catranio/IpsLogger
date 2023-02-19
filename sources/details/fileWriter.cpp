@@ -1,8 +1,8 @@
-#include <ips/logger/ditails/fileWriter.hpp>
+#include "fileWriter.hpp"
 
 #include <fstream>
 
-using namespace ips::logger::ditails;
+using namespace ips::logger::details;
 
 FileWriter::FileWriter(std::string_view filename) : file_(std::make_unique<std::ofstream>()){
     file_->open(filename.data(), std::ios::out | std::ios::app);

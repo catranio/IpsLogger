@@ -1,19 +1,19 @@
-#include <ips/logger/log.hpp>
-#include <ips/logger/ditails/storageLoggers.hpp>
-#include <ips/logger/ditails/dateFormatter.hpp>
-#include <ips/logger/ditails/fileWriter.hpp>
+#include "ips/logger/log.hpp"
+#include "details/storageLoggers.hpp"
+#include "details/dateFormatter.hpp"
+#include "details/fileWriter.hpp"
 
 using namespace ips::logger;
 
 [[maybe_unused]] void ips::logger::init(const std::string& filename,
                                  Severity severity, level_t level, id_t id) noexcept {
-    detail::StorageLoggers::add(id, level, severity,
-                                std::make_unique<ditails::FileWriter>(filename),
-                                std::make_unique<ditails::DateFormatter>());
+    details::StorageLoggers::add(id, level, severity,
+                                std::make_unique<details::FileWriter>(filename),
+                                std::make_unique<details::DateFormatter>());
 }
 
 [[maybe_unused]] inline void ips::logger::uninit(id_t id) noexcept {
-    detail::StorageLoggers::remove(id);
+    details::StorageLoggers::remove(id);
 }
 
 Recorder ips::logger::log(Severity severity, level_t level, id_t id) noexcept {

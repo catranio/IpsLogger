@@ -1,6 +1,6 @@
 
-#include <ips/logger/recorder.hpp>
-#include <ips/logger/ditails/storageLoggers.hpp>
+#include "ips/logger/recorder.hpp"
+#include "details/storageLoggers.hpp"
 
 #include <chrono>
 
@@ -21,7 +21,7 @@ Recorder::Recorder(Severity severity, level_t level, id_t id) :
 
 
 Recorder::~Recorder() {
-    detail::StorageLoggers::write(*this);
+    details::StorageLoggers::write(*this);
 }
 
 Recorder& Recorder::operator<<(char value) noexcept {

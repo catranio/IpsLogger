@@ -1,19 +1,17 @@
-#include <ips/logger/ditails/storageLoggers.hpp>
-#include <ips/logger/writer.hpp>
-#include <ips/logger/formatter.hpp>
-#include <ips/logger/recorder.hpp>
+#include "storageLoggers.hpp"
+#include "ips/logger/writer.hpp"
+#include "ips/logger/formatter.hpp"
+#include "ips/logger/recorder.hpp"
 
-#include <iostream>
-
-using namespace ips::logger::detail;
+using namespace ips::logger::details;
 
 void StorageLoggers::add(id_t id, level_t maxLevel, Severity severity,
                 std::unique_ptr<Writer>&& writer, std::unique_ptr<Formatter>&& formatter) noexcept {
     auto& instance = StorageLoggers::instance();
     std::unique_lock lock(instance.mutex_);
-    instance.storage_.emplace(id, SettingsLoggger{maxLevel, severity,
-                                   std::move(writer),
-                                   std::move(formatter)});
+    instance.storage_.emplace(id, SettingsLogger{maxLevel, severity,
+												 std::move(writer),
+												 std::move(formatter)});
 }
 
 void StorageLoggers::remove(id_t id) noexcept {
@@ -45,7 +43,7 @@ StorageLoggers& StorageLoggers::instance() noexcept {
     return instance;
 }
 
-bool StorageLoggers::isWrite(const Recorder& recorder, const SettingsLoggger& settings) noexcept {
+bool StorageLoggers::isWrite(const Recorder& recorder, const SettingsLogger& settings) noexcept {
     return (settings.severity == Severity::ALL
         || recorder.getSeverity() == settings.severity)
         && recorder.getLevel() <= settings.maxLevel;

@@ -1,7 +1,7 @@
-#ifndef IPSLOGGER_STORAGELOGGERS_HPP
-#define IPSLOGGER_STORAGELOGGERS_HPP
+#ifndef IPSLOGGER_DETAILS_STORAGELOGGERS_HPP
+#define IPSLOGGER_DETAILS_STORAGELOGGERS_HPP
 
-#include <ips/logger/definitions.hpp>
+#include "ips/logger/definitions.hpp"
 
 #include <mutex>
 #include <unordered_map>
@@ -13,11 +13,11 @@ namespace ips::logger {
     class Writer;
 }
 
-namespace ips::logger::detail
+namespace ips::logger::details
 {
     class StorageLoggers {
     private:
-        struct SettingsLoggger {
+        struct SettingsLogger {
             level_t maxLevel;
             Severity severity;
             std::unique_ptr<Writer> writer;
@@ -33,7 +33,7 @@ namespace ips::logger::detail
     private:
         StorageLoggers() = default;
         static StorageLoggers& instance() noexcept;
-        static bool isWrite(const Recorder& recorder, const SettingsLoggger& settings) noexcept;
+        static bool isWrite(const Recorder& recorder, const SettingsLogger& settings) noexcept;
 
     public:
         StorageLoggers(const StorageLoggers&) = delete;
@@ -43,11 +43,11 @@ namespace ips::logger::detail
 
     private:
         using mutex_t = std::mutex;
-        using storage_t = std::unordered_map<id_t, SettingsLoggger>;
+        using storage_t = std::unordered_map<id_t, SettingsLogger>;
 
         mutex_t mutex_;
         storage_t storage_;
     };
 }
 
-#endif /* IPSLOGGER_STORAGELOGGERS_HPP */
+#endif /* IPSLOGGER_DETAILS_STORAGELOGGERS_HPP */

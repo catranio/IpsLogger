@@ -1,12 +1,12 @@
-#ifndef IPSLOGGER_DATEFORMATTER_HPP
-#define IPSLOGGER_DATEFORMATTER_HPP
+#ifndef IPSLOGGER_DETAILS_DATEFORMATTER_HPP
+#define IPSLOGGER_DETAILS_DATEFORMATTER_HPP
 
-#include <ips/logger/formatter.hpp>
-#include <ips/logger/definitions.hpp>
+#include "ips/logger/formatter.hpp"
+#include "ips/logger/definitions.hpp"
 
 #include <string_view>
 
-namespace ips::logger::ditails
+namespace ips::logger::details
 {
     class DateFormatter : public Formatter {
     public:
@@ -17,4 +17,4 @@ namespace ips::logger::ditails
     };
 }
 
-#endif /* IPSLOGGER_DATEFORMATTER_HPP */
+#endif /* IPSLOGGER_DETAILS_DATEFORMATTER_HPP */

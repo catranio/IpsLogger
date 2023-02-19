@@ -1,10 +1,10 @@
-#include <ips/logger/ditails/dateFormatter.hpp>
-#include <ips/logger/recorder.hpp>
+#include "dateFormatter.hpp"
+#include "ips/logger/recorder.hpp"
 
 #include <fmt/format.h>
 #include <fmt/chrono.h>
 
-using namespace ips::logger::ditails;
+using namespace ips::logger::details;
 
 std::string DateFormatter::fmt(const Recorder &recorder) noexcept {
 	std::chrono::microseconds mc(recorder.getTimestamp());

@@ -1,11 +1,11 @@
-#ifndef IPSLOGGER_FILEWRITER_HPP
-#define IPSLOGGER_FILEWRITER_HPP
+#ifndef IPSLOGGER_DETAILS_FILEWRITER_HPP
+#define IPSLOGGER_DETAILS_FILEWRITER_HPP
 
 #include <ips/logger/writer.hpp>
 
 #include <memory>
 
-namespace ips::logger::ditails
+namespace ips::logger::details
 {
     class FileWriter : public Writer {
     public:
@@ -19,4 +19,4 @@ namespace ips::logger::ditails
     };
 }
 
-#endif /* IPSLOGGER_FILEWRITER_HPP */
+#endif /* IPSLOGGER_DETAILS_FILEWRITER_HPP */
