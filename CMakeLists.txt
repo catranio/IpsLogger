@@ -29,3 +29,17 @@ ips_add_target(${PROJECT_NAME} STATIC
         HEADERS ${CMAKE_SOURCE_DIR}/include/*
         SOURCES ${CMAKE_SOURCE_DIR}/sources/*
         DEPENDS fmt)
+
+set(BUILD_TESTS OFF)
+if (BUILD_TESTS)
+    FetchContent_Declare(catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG v3.3.1
+            SOURCE_DIR ${LIBS_SOURCE_DIR}/catch2/)
+    FetchContent_MakeAvailable(catch2)
+
+    ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
+            HEADERS ${CMAKE_SOURCE_DIR}/include/*
+            SOURCES ${CMAKE_SOURCE_DIR}/tests/*
+            DEPENDS ${PROJECT_NAME} Catch2::Catch2WithMain)
+endif ()

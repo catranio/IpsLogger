@@ -4,3 +4,4 @@ cmake-build*
 # dependencies
 libs/common
 libs/fmt
+libs/catch2
