@@ -1,49 +1,57 @@
-#include <catch2/catch_test_macros.hpp>
+#include <doctest/doctest.h>
 #include <ips/logger/recorder.hpp>
 
-TEST_CASE("get value correct", "[recorder]") {
-	SECTION("get int") {
+TEST_CASE("get value correct") {
+	auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
+	int value = 1;
+	rec << value;
+	REQUIRE(rec.getBuffer() == "1");
+}
+
+
+TEST_CASE("get value correct") {
+	SUBCASE("get int") {
 		auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		int value = 1;
 		rec << value;
-		REQUIRE(rec.getBuffer() == "1");
+		CHECK(rec.getBuffer() == "1");
 	}
 
-	SECTION("get unsigned int") {
+	SUBCASE("get unsigned int") {
 		auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		unsigned value = 1;
 		rec << value;
-		REQUIRE(rec.getBuffer() == "1");
+		CHECK(rec.getBuffer() == "1");
 	}
 
-	SECTION("get double") {
+	SUBCASE("get double") {
 		auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		double value = 1.1;
 		rec << value;
-		REQUIRE(rec.getBuffer() == "1.1");
+		CHECK(rec.getBuffer() == "1.1");
 	}
 
-	SECTION("get float") {
+	SUBCASE("get float") {
 		auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		float value = 1.1f;
 		rec << value;
-		REQUIRE(rec.getBuffer() == "1.1");
+		CHECK(rec.getBuffer() == "1.1");
 	}
 
-	SECTION("get char") {
+	SUBCASE("get char") {
 	auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		char value = 'a';
 		rec << value;
-		REQUIRE(rec.getBuffer() == "a");
+		CHECK(rec.getBuffer() == "a");
 	}
 
-	SECTION("get exception") {
+	SUBCASE("get exception") {
 		auto rec = ips::logger::Recorder{ips::logger::Severity::ALL, 3, 0};
 		try {
 			throw std::runtime_error("runtime error");
 		} catch (std::exception& e) {
 			rec << e.what();
 		}
-		REQUIRE(rec.getBuffer() == "runtime error");
+		CHECK(rec.getBuffer() == "runtime error");
 	}
 }
