@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(IpsLogger)
-set(LIBS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/libs)
+set(LIBS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 include(FetchContent)
 FetchContent_Declare(IpsCMakeModules
@@ -31,7 +31,7 @@ if (BUILD_TESTS)
     FetchContent_MakeAvailable(doctest)
 
     ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
-            HEADERS ${CMAKE_SOURCE_DIR}/include/*
-            SOURCES ${CMAKE_SOURCE_DIR}/tests/*
+            HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
+            SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/*
             DEPENDS ${PROJECT_NAME} doctest::doctest)
 endif ()
