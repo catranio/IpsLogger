@@ -19,8 +19,8 @@ FetchContent_Declare(fmt
 FetchContent_MakeAvailable(fmt)
 
 ips_add_target(${PROJECT_NAME} STATIC
-        HEADERS ${CMAKE_SOURCE_DIR}/include/*
-        SOURCES ${CMAKE_SOURCE_DIR}/sources/*
+        HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
+        SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sources/*
         DEPENDS fmt)
 
 if (BUILD_TESTS)
