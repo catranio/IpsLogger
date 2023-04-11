@@ -1,6 +1,7 @@
 #include <doctest/doctest.h>
 #include <ips/logger/recorder.hpp>
 #include <limits>
+#include <chrono>
 
 using namespace ::ips::logger;
 
