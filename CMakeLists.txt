@@ -26,7 +26,7 @@ ips_add_target(${PROJECT_NAME} STATIC
 if (BUILD_TESTS)
     FetchContent_Declare(doctest
             GIT_REPOSITORY https://github.com/doctest/doctest.git
-            GIT_TAG v2.4.9
+            GIT_TAG v2.4.11
             SOURCE_DIR ${LIBS_SOURCE_DIR}/doctest/)
     FetchContent_MakeAvailable(doctest)
 
