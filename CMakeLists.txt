@@ -16,7 +16,9 @@ FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG 9.1.0
         SOURCE_DIR ${LIBS_SOURCE_DIR}/fmt/)
+set(CMAKE_MESSAGE_LOG_LEVEL WARNING)
 FetchContent_MakeAvailable(fmt)
+unset(CMAKE_MESSAGE_LOG_LEVEL)
 
 ips_add_target(${PROJECT_NAME} STATIC
         HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
@@ -34,4 +36,7 @@ if (BUILD_TESTS)
             HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
             SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/*
             DEPENDS ${PROJECT_NAME} doctest::doctest)
+
+    enable_testing()
+    add_test(NAME recorder COMMAND ${PROJECT_NAME}.tests -ts="recorder")
 endif ()
