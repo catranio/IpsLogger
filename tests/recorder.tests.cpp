@@ -2,6 +2,7 @@
 #include <ips/logger/recorder.hpp>
 #include <limits>
 #include <chrono>
+#include <stdexcept>
 
 using namespace ::ips::logger;
 
