@@ -1,13 +1,12 @@
 #include <doctest/doctest.h>
 #include <ips/logger/recorder.hpp>
 #include <limits>
-#include <sstream>
 
 using namespace ::ips::logger;
 
 class RecorderFixture {
 public:
-    RecorderFixture() : recorder(severity, level, loggerId) {};
+    RecorderFixture() : recorder(severity, level, loggerId) {}
 
     template<typename T>
     void check_value(const T& value, const std::string& expected) {
@@ -56,17 +55,23 @@ public:
     Recorder recorder;
 };
 
+TEST_SUITE_BEGIN("recorder");
+
 TEST_CASE("correct constructor") {
 	auto severity = Severity::DEBUG;
 	auto level = level_t{6};
 	auto loggerId = id_t{233};
 
+    auto firstTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 	auto rec = Recorder{severity, level, loggerId};
+    auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
 	CHECK(rec.getSeverity() == severity);
 	CHECK(rec.getLevel() == level);
 	CHECK(rec.getLoggerId() == loggerId);
 	CHECK(rec.getBuffer().empty());
+	CHECK(rec.getTimestamp() >= firstTimestamp);
+    CHECK(rec.getTimestamp() <= secondTimestamp);
 }
 
 TEST_CASE_FIXTURE(RecorderFixture, "format") {
@@ -146,3 +151,5 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
         CHECK(recorder.getBuffer() == value);
     }
 }
+
+TEST_SUITE_END();
