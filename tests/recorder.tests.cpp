@@ -3,6 +3,7 @@
 #include <limits>
 #include <chrono>
 #include <stdexcept>
+#include <random>
 
 using namespace ::ips::logger;
 
@@ -28,7 +29,9 @@ public:
         }
         if constexpr (std::is_integral_v<TYPE>) {
             SUBCASE("random") {
-                auto value = std::numeric_limits<TYPE>::max() % static_cast<TYPE>(rand());
+                std::default_random_engine randomEngine{std::random_device{}()};
+                std::uniform_int_distribution<TYPE> dist{std::numeric_limits<TYPE>::min(), std::numeric_limits<TYPE>::max()};
+                auto value = dist(randomEngine);
                 check_value(value, std::to_string(value));
             }
         }
