@@ -40,12 +40,12 @@ Recorder& Recorder::operator<<(float value) noexcept {
 }
 
 Recorder& Recorder::operator<<(double value) noexcept {
-    fmt::format_to(std::back_inserter(buffer_), FMT_STRING("{}"), value);
+    fmt::format_to(std::back_inserter(buffer_), FMT_STRING("{:g}"), value);
     return *this;
 }
 
 Recorder& Recorder::operator<<(long double value) noexcept {
-    fmt::format_to(std::back_inserter(buffer_), FMT_STRING("{}"), value);
+    fmt::format_to(std::back_inserter(buffer_), FMT_STRING("{:g}"), value);
     return *this;
 }
 
