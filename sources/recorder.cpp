@@ -14,6 +14,17 @@ Recorder::Recorder(Severity severity, level_t level, id_t id) :
         severity_(severity),
         level_(level),
         id_(id),
+        name_(),
+        buffer_() {
+    buffer_.reserve(kBufferSize);
+    timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
+}
+
+Recorder::Recorder(const name_t& name, level_t level, id_t id) :
+        severity_(Severity::NONE),
+        level_(level),
+        id_(id),
+        name_(name),
         buffer_() {
     buffer_.reserve(kBufferSize);
     timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
@@ -79,6 +90,10 @@ Severity Recorder::getSeverity() const noexcept {
 
 level_t Recorder::getLevel() const noexcept {
     return level_;
+}
+
+Recorder::name_t Recorder::getName() const noexcept {
+    return name_;
 }
 
 std::string_view Recorder::getBuffer() const noexcept {

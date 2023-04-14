@@ -62,7 +62,7 @@ public:
 
 TEST_SUITE_BEGIN("recorder");
 
-TEST_CASE("correct constructor") {
+TEST_CASE("correct constructor severity") {
 	auto severity = Severity::DEBUG;
 	auto level = level_t{6};
 	auto loggerId = id_t{233};
@@ -72,10 +72,29 @@ TEST_CASE("correct constructor") {
     auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
 	CHECK(rec.getSeverity() == severity);
+    CHECK(rec.getName() == std::string{});
 	CHECK(rec.getLevel() == level);
 	CHECK(rec.getLoggerId() == loggerId);
 	CHECK(rec.getBuffer().empty());
 	CHECK(rec.getTimestamp() >= firstTimestamp);
+    CHECK(rec.getTimestamp() <= secondTimestamp);
+}
+
+TEST_CASE("correct constructor name") {
+    auto name = std::string{"alarm.cdr"};
+    auto level = level_t{6};
+    auto loggerId = id_t{233};
+
+    auto firstTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    auto rec = Recorder{name, level, loggerId};
+    auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
+
+    CHECK(rec.getName() == name);
+    CHECK(rec.getSeverity() == Severity::NONE);
+    CHECK(rec.getLevel() == level);
+    CHECK(rec.getLoggerId() == loggerId);
+    CHECK(rec.getBuffer().empty());
+    CHECK(rec.getTimestamp() >= firstTimestamp);
     CHECK(rec.getTimestamp() <= secondTimestamp);
 }
 
