@@ -33,10 +33,14 @@ if (BUILD_TESTS)
     FetchContent_MakeAvailable(doctest)
 
     ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
-            HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
+            HEADERS
+                ${CMAKE_CURRENT_SOURCE_DIR}/include/*
+                ${CMAKE_CURRENT_SOURCE_DIR}/sources/*
             SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tests/*
-            DEPENDS ${PROJECT_NAME} doctest::doctest)
+            DEPENDS ${PROJECT_NAME} doctest::doctest fmt)
 
     enable_testing()
     add_test(NAME recorder COMMAND ${PROJECT_NAME}.tests -ts="recorder")
+    add_test(NAME date-formatter COMMAND ${PROJECT_NAME}.tests -ts="dateformatter")
+    add_test(NAME storage-loggers COMMAND ${PROJECT_NAME}.tests -ts="StorageLoggers")
 endif ()
