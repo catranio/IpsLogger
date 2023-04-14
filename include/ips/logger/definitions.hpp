@@ -20,6 +20,20 @@ namespace ips::logger
     constexpr static level_t kMaxLevelDefault = 10;
     constexpr static level_t kLevelDefault = 3;
     constexpr static id_t kIdDefault = 0;
+
+    constexpr const char* to_string(Severity severity) noexcept {
+        switch (severity) {
+            case Severity::FATAL: return "fatal";
+            case Severity::ERROR: return "error";
+            case Severity::WARNING: return "warning";
+            case Severity::INFO: return "info";
+            case Severity::TRACE: return "trace";
+            case Severity::DEBUG: return "debug";
+            case Severity::ALL: return "all";
+            case Severity::NONE:
+            default: return "";
+        }
+    }
 }
 
 #endif /* IPSLOGGER_DEFINITIONS_HPP */
