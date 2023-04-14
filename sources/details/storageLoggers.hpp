@@ -5,6 +5,7 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 #include <memory>
 
 namespace ips::logger {
@@ -20,6 +21,7 @@ namespace ips::logger::details
         struct SettingsLogger {
             level_t maxLevel;
             Severity severity;
+            std::string name;
             std::unique_ptr<Writer> writer;
             std::unique_ptr<Formatter> formatter;
         };
@@ -27,13 +29,22 @@ namespace ips::logger::details
     public:
         static void add(id_t id, level_t maxLevel, Severity severity,
                         std::unique_ptr<Writer>&& writer, std::unique_ptr<Formatter>&& formatter) noexcept;
-        static void remove(id_t id) noexcept;
+        static void add(id_t id, level_t maxLevel, const std::string& name,
+                        std::unique_ptr<Writer>&& writer, std::unique_ptr<Formatter>&& formatter) noexcept;
+        static bool remove(id_t id, Severity severity) noexcept;
+        static bool remove(id_t id, const std::string& name) noexcept;
         static bool write(const Recorder& recorder) noexcept;
 
     private:
         StorageLoggers() = default;
         static StorageLoggers& instance() noexcept;
         static bool isWrite(const Recorder& recorder, const SettingsLogger& settings) noexcept;
+
+        static void add(id_t id, level_t maxLevel,
+                        Severity severity, const std::string& name,
+                        std::unique_ptr<Writer>&& writer,
+                        std::unique_ptr<Formatter>&& formatter) noexcept;
+        static bool remove(id_t id, Severity severity, const std::string& name) noexcept;
 
     public:
         StorageLoggers(const StorageLoggers&) = delete;
@@ -43,7 +54,7 @@ namespace ips::logger::details
 
     private:
         using mutex_t = std::mutex;
-        using storage_t = std::unordered_map<id_t, SettingsLogger>;
+        using storage_t = std::unordered_map<id_t, std::vector<SettingsLogger>>;
 
         mutex_t mutex_;
         storage_t storage_;

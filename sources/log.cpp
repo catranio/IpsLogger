@@ -13,7 +13,7 @@ using namespace ips::logger;
 }
 
 [[maybe_unused]] inline void ips::logger::uninit(id_t id) noexcept {
-    details::StorageLoggers::remove(id);
+    details::StorageLoggers::remove(id, Severity::ALL);
 }
 
 Recorder ips::logger::log(Severity severity, level_t level, id_t id) noexcept {
