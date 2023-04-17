@@ -27,11 +27,10 @@ constexpr std::string_view to_string(Severity severity) noexcept {
 TEST_CASE("dateformatter") {
     const auto severity = Severity::TRACE;
     const auto level = 2;
-    const auto id = 0;
     const auto message = "some message for logging.";
 
     details::DateFormatter df;
-    Recorder rec{severity, level, id};
+    Recorder rec{"", severity, level};
     rec << message;
     auto assert = df.fmt(rec);
 

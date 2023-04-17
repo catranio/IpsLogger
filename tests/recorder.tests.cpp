@@ -5,11 +5,13 @@
 #include <stdexcept>
 #include <random>
 
+#include <ips/logger/log.hpp>
+
 using namespace ::ips::logger;
 
 class RecorderFixture {
 public:
-    RecorderFixture() : recorder(severity, level, loggerId) {}
+    RecorderFixture() : recorder("", severity, level) {}
 
     template<typename T>
     void check_value(const T& value, const std::string& expected) {
@@ -56,7 +58,6 @@ public:
 
     static constexpr Severity severity = Severity::DEBUG;
     static constexpr level_t level = level_t{6};
-    static constexpr id_t loggerId = id_t{233};
     Recorder recorder;
 };
 
@@ -65,16 +66,14 @@ TEST_SUITE_BEGIN("recorder");
 TEST_CASE("correct constructor severity") {
 	auto severity = Severity::DEBUG;
 	auto level = level_t{6};
-	auto loggerId = id_t{233};
 
     auto firstTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
-	auto rec = Recorder{severity, level, loggerId};
+	auto rec = Recorder{"", severity, level};
     auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
 	CHECK(rec.getSeverity() == severity);
     CHECK(rec.getName() == std::string{});
 	CHECK(rec.getLevel() == level);
-	CHECK(rec.getLoggerId() == loggerId);
 	CHECK(rec.getBuffer().empty());
 	CHECK(rec.getTimestamp() >= firstTimestamp);
     CHECK(rec.getTimestamp() <= secondTimestamp);
@@ -83,16 +82,14 @@ TEST_CASE("correct constructor severity") {
 TEST_CASE("correct constructor name") {
     auto name = std::string{"alarm.cdr"};
     auto level = level_t{6};
-    auto loggerId = id_t{233};
 
     auto firstTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rec = Recorder{name, level, loggerId};
+    auto rec = Recorder{name, Severity::TRACE, level};
     auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
     CHECK(rec.getName() == name);
-    CHECK(rec.getSeverity() == Severity::NONE);
+    CHECK(rec.getSeverity() == Severity::TRACE);
     CHECK(rec.getLevel() == level);
-    CHECK(rec.getLoggerId() == loggerId);
     CHECK(rec.getBuffer().empty());
     CHECK(rec.getTimestamp() >= firstTimestamp);
     CHECK(rec.getTimestamp() <= secondTimestamp);
@@ -177,3 +174,15 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
 }
 
 TEST_SUITE_END();
+
+namespace ips::logger {
+	inline Recorder cpe_trace(level_t level) {
+		return Recorder{"cpe", Severity::TRACE, level};
+	}
+}
+
+TEST_CASE("custom recorder") {
+	ips::logger::init("cpe_trace.cfg", Severity::TRACE);
+
+	ips::logger::cpe_trace(1) << "cpe.tr: " << 1;
+}

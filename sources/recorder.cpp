@@ -1,6 +1,5 @@
-
-#include "ips/logger/recorder.hpp"
-#include "details/storageLoggers.hpp"
+#include <ips/logger/recorder.hpp>
+#include "details/storage.hpp"
 
 #include <chrono>
 
@@ -10,20 +9,10 @@ using namespace ips::logger;
 
 constexpr static std::size_t kBufferSize = 1024;
 
-Recorder::Recorder(Severity severity, level_t level, id_t id) :
+
+Recorder::Recorder(const name_t& name, Severity severity, level_t level) :
         severity_(severity),
         level_(level),
-        id_(id),
-        name_(),
-        buffer_() {
-    buffer_.reserve(kBufferSize);
-    timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
-}
-
-Recorder::Recorder(const name_t& name, level_t level, id_t id) :
-        severity_(Severity::NONE),
-        level_(level),
-        id_(id),
         name_(name),
         buffer_() {
     buffer_.reserve(kBufferSize);
@@ -32,7 +21,7 @@ Recorder::Recorder(const name_t& name, level_t level, id_t id) :
 
 
 Recorder::~Recorder() {
-    details::StorageLoggers::write(*this);
+    details::Storage::instance().write(*this);
 }
 
 Recorder& Recorder::operator<<(char value) noexcept {
@@ -93,13 +82,9 @@ level_t Recorder::getLevel() const noexcept {
 }
 
 Recorder::name_t Recorder::getName() const noexcept {
-    return name_;
+    return name_ + "." + to_string(severity_);
 }
 
 std::string_view Recorder::getBuffer() const noexcept {
     return buffer_.data();
-}
-
-id_t Recorder::getLoggerId() const noexcept {
-    return id_;
 }
