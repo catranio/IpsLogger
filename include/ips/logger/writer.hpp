@@ -1,7 +1,7 @@
 #ifndef IPSLOGGER_WRITER_HPP
 #define IPSLOGGER_WRITER_HPP
 
-#include <string_view>
+#include <iosfwd>
 
 namespace ips::logger
 {
@@ -9,7 +9,7 @@ namespace ips::logger
     public:
         virtual ~Writer() = default;
 
-        virtual void write(std::string_view data) = 0;
+        virtual void write(const std::string& data) = 0;
     };
 }
 

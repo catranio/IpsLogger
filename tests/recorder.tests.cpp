@@ -72,7 +72,7 @@ TEST_CASE("correct constructor severity") {
     auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
 	CHECK(rec.getSeverity() == severity);
-    CHECK(rec.getName() == std::string{});
+    CHECK(rec.getId() == std::string{});
 	CHECK(rec.getLevel() == level);
 	CHECK(rec.getBuffer().empty());
 	CHECK(rec.getTimestamp() >= firstTimestamp);
@@ -80,14 +80,14 @@ TEST_CASE("correct constructor severity") {
 }
 
 TEST_CASE("correct constructor name") {
-    auto name = std::string{"alarm.cdr"};
+    auto id = std::string{"alarm.cdr"};
     auto level = level_t{6};
 
     auto firstTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
-    auto rec = Recorder{name, Severity::TRACE, level};
+    auto rec = Recorder{id, Severity::TRACE, level};
     auto secondTimestamp = std::chrono::system_clock::now().time_since_epoch().count();
 
-    CHECK(rec.getName() == name);
+    CHECK(rec.getId() == id);
     CHECK(rec.getSeverity() == Severity::TRACE);
     CHECK(rec.getLevel() == level);
     CHECK(rec.getBuffer().empty());

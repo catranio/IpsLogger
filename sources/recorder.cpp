@@ -9,11 +9,10 @@ using namespace ips::logger;
 
 constexpr static std::size_t kBufferSize = 1024;
 
-
-Recorder::Recorder(const name_t& name, Severity severity, level_t level) :
+Recorder::Recorder(const id_t& id, Severity severity, level_t level) :
         severity_(severity),
         level_(level),
-        name_(name),
+        id_(id),
         buffer_() {
     buffer_.reserve(kBufferSize);
     timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
@@ -81,8 +80,8 @@ level_t Recorder::getLevel() const noexcept {
     return level_;
 }
 
-Recorder::name_t Recorder::getName() const noexcept {
-    return name_ + "." + to_string(severity_);
+Recorder::id_t Recorder::getId() const noexcept {
+    return id_;
 }
 
 std::string_view Recorder::getBuffer() const noexcept {

@@ -15,11 +15,9 @@ namespace ips::logger
     };
 
     using level_t = unsigned;
-    using id_t = unsigned;
 
     constexpr static level_t kMaxLevelDefault = 10;
     constexpr static level_t kLevelDefault = 3;
-    constexpr static id_t kIdDefault = 0;
 
     constexpr const char* to_string(Severity severity) noexcept {
         switch (severity) {

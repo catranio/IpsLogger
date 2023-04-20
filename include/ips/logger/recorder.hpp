@@ -13,10 +13,10 @@ namespace ips::logger
     public:
         using timestamp_t = long long;
         using message_buffer_t = std::string;
-        using name_t = std::string;
+        using id_t = std::string;
 
     public:
-        Recorder(const name_t& name, Severity severity, level_t leve);
+        Recorder(const id_t& id, Severity severity, level_t leve);
         ~Recorder();
 
         Recorder(const Recorder&) = delete;
@@ -56,13 +56,13 @@ namespace ips::logger
         [[nodiscard]] timestamp_t getTimestamp() const noexcept;
         [[nodiscard]] Severity getSeverity() const noexcept;
         [[nodiscard]] level_t getLevel() const noexcept;
-        [[nodiscard]] name_t getName() const noexcept;
+        [[nodiscard]] id_t getId() const noexcept;
         [[nodiscard]] std::string_view getBuffer() const noexcept;
 
     private:
         const Severity severity_;
         const level_t level_;
-        const name_t name_;
+        const id_t id_;
         message_buffer_t buffer_;
         timestamp_t timestamp_;
     };

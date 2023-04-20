@@ -18,8 +18,8 @@ void Storage::add(Logger&& logger) noexcept {
 }
 
 void Storage::write(const Recorder& recorder) noexcept {
-	const auto& key = recorder.getName();
-	auto it = storage_.find(key);
+	const auto& id = recorder.getId();
+	auto it = storage_.find(id);
 	if (it == storage_.end()) {
 		return;
 	}
