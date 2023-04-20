@@ -2,6 +2,8 @@
 #include "details/storage.hpp"
 
 #include <chrono>
+#include <exception>
+#include <utility>
 
 #include <fmt/format.h>
 
@@ -9,10 +11,10 @@ using namespace ips::logger;
 
 constexpr static std::size_t kBufferSize = 1024;
 
-Recorder::Recorder(const id_t& id, Severity severity, level_t level) :
+Recorder::Recorder(id_t id, Severity severity, level_t level) :
         severity_(severity),
         level_(level),
-        id_(id),
+        id_(std::move(id)),
         buffer_() {
     buffer_.reserve(kBufferSize);
     timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
@@ -85,5 +87,5 @@ Recorder::id_t Recorder::getId() const noexcept {
 }
 
 std::string_view Recorder::getBuffer() const noexcept {
-    return buffer_.data();
+    return buffer_;
 }

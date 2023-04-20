@@ -9,10 +9,10 @@ namespace ips::logger::details
 {
     class FileWriter : public Writer {
     public:
-        explicit FileWriter(const std::string& name);
+        explicit FileWriter(std::string_view name);
         ~FileWriter() override;
 
-        void write(const std::string& data) noexcept final;
+        void write(std::string_view data) noexcept final;
 
     private:
         std::unique_ptr<std::ofstream> file_;

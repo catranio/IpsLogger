@@ -3,9 +3,11 @@
 
 #include "definitions.hpp"
 
-#include <string_view>
-#include <exception>
 #include <string>
+
+namespace std {
+	class exception;
+}
 
 namespace ips::logger
 {
@@ -16,7 +18,7 @@ namespace ips::logger
         using id_t = std::string;
 
     public:
-        Recorder(const id_t& id, Severity severity, level_t leve);
+        Recorder(id_t id, Severity severity, level_t leve);
         ~Recorder();
 
         Recorder(const Recorder&) = delete;

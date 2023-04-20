@@ -18,8 +18,6 @@ namespace ips::logger
     [[maybe_unused]] void init(const std::string& filename, Severity severity,
                      level_t maxLevel = kMaxLevelDefault) noexcept;
 
-//    [[maybe_unused]] inline void uninit(id_t id) noexcept;
-
     inline Recorder log(Severity severity, level_t level = kLevelDefault) noexcept;
     [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault) noexcept;
     [[maybe_unused]] Recorder error(level_t level = kLevelDefault) noexcept;

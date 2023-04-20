@@ -13,10 +13,6 @@ using namespace ips::logger;
 									  maxLevel});
 }
 
-//[[maybe_unused]] inline void ips::logger::uninit(id_t id) noexcept {
-////    details::StorageLoggers::remove(id, Severity::ALL);
-//}
-
 Recorder ips::logger::log(Severity severity, level_t level) noexcept {
     return Recorder{"", severity, level};
 }

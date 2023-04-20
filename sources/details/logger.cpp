@@ -16,7 +16,7 @@ Logger::Logger(std::string_view name,
 	   writer_(std::move(writer)),
 	   formatter_(formatter)
 	   {
-	name_ += std::string{} + "." + to_string(severity);
+	name_ += std::string{"."}  + to_string(severity);
 }
 
 Logger::Logger(Logger&& logger) {
