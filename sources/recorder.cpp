@@ -4,6 +4,7 @@
 #include <chrono>
 #include <exception>
 #include <utility>
+#include <string>
 
 #include <fmt/format.h>
 
@@ -82,7 +83,7 @@ level_t Recorder::getLevel() const noexcept {
     return level_;
 }
 
-Recorder::id_t Recorder::getId() const noexcept {
+std::string_view Recorder::getId() const noexcept {
     return id_;
 }
 

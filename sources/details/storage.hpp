@@ -13,6 +13,7 @@ namespace ips::logger::details {
 	private:
 		Storage() = default;
 		~Storage() = default;
+	public:
 		Storage(const Storage&) = delete;
 		Storage(Storage&&) = delete;
 		Storage& operator=(const Storage&) = delete;
@@ -21,7 +22,11 @@ namespace ips::logger::details {
 	public:
 		static Storage& instance() noexcept;
 		void add(Logger&& logger) noexcept;
+		void remove(const id_t& id) noexcept;
 		void write(const Recorder& recorder) noexcept;
+
+	private:
+		static bool isWrite(const Recorder& recorder, const Logger& logger) noexcept;
 
 	private:
 		using storage_t = std::unordered_map<std::string, Logger>;

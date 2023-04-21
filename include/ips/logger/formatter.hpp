@@ -11,7 +11,7 @@ namespace ips::logger
     public:
         virtual ~Formatter() = default;
 
-        virtual std::string fmt(const Recorder& recorder) noexcept = 0;
+        [[nodiscard]] virtual std::string fmt(const Recorder& recorder) const noexcept = 0;
     };
 }
 

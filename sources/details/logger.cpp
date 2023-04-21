@@ -3,56 +3,61 @@
 using namespace ips::logger;
 using namespace ips::logger::details;
 
-Logger::Logger(std::string_view name,
+Logger::Logger(std::string_view id,
 	   Severity severity,
-	   std::unique_ptr<Writer>&& writer,
-	   std::shared_ptr<Formatter>&& formatter,
+	   writer_t&& writer,
+	   formatter_t&& formatter,
 	   level_t maxLevel,
 	   SeverityEqualMode severityEqualMode) :
-	   name_(name),
 	   severity_(severity),
-	   maxLevel_(maxLevel),
 	   severityEqualMode_(severityEqualMode),
+	   maxLevel_(maxLevel),
+	   id_(id),
 	   writer_(std::move(writer)),
-	   formatter_(formatter)
-	   {
-	name_ += std::string{"."}  + to_string(severity);
+	   formatter_(std::move(formatter)) {
 }
 
-Logger::Logger(Logger&& logger) {
-	name_ = std::move(logger.name_);
-	severity_ = std::move(logger.severity_);
-	maxLevel_ = std::move(logger.maxLevel_);
-	severityEqualMode_ = std::move(logger.severityEqualMode_);
+Logger::Logger(Logger&& logger) noexcept {
+	id_ = std::move(logger.id_);
+	severity_ = logger.severity_;
+	maxLevel_ = logger.maxLevel_;
+	severityEqualMode_ = logger.severityEqualMode_;
 	writer_ = std::move(logger.writer_);
 	formatter_ = std::move(logger.formatter_);
 }
 
-Logger &&Logger::operator=(Logger &&logger) {
-	std::swap(*this, logger);
-	return std::move(*this);
-}
-
-std::string_view Logger::getName() const noexcept {
-	return name_;
+Logger& Logger::operator=(Logger &&logger) noexcept {
+	if (this != &logger) {
+		id_ = std::move(logger.id_);
+		severity_ = logger.severity_;
+		maxLevel_ = logger.maxLevel_;
+		severityEqualMode_ = logger.severityEqualMode_;
+		writer_ = std::move(logger.writer_);
+		formatter_ = std::move(logger.formatter_);
+	}
+	return *this;
 }
 
 Severity Logger::getSeverity() const noexcept {
 	return severity_;
 }
 
+Logger::SeverityEqualMode Logger::getSeverityEqualMode() const noexcept {
+	return severityEqualMode_;
+}
+
 level_t Logger::getMaxLevel() const noexcept {
 	return maxLevel_;
 }
 
-SeverityEqualMode Logger::getSeverityEqualMode() const noexcept {
-	return severityEqualMode_;
+std::string_view Logger::getId() const noexcept {
+	return id_;
 }
 
-const std::unique_ptr<Writer>& Logger::getWriter() const noexcept {
-	return writer_;
+Writer& Logger::getWriter() const noexcept {
+	return *writer_;
 }
 
-const std::shared_ptr<Formatter>& Logger::getFormatter() const noexcept {
-	return formatter_;
+const Formatter& Logger::getFormatter() const noexcept {
+	return *formatter_;
 }

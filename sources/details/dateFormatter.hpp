@@ -8,7 +8,7 @@ namespace ips::logger::details
 {
     class DateFormatter : public Formatter {
     public:
-        std::string fmt(const Recorder& recorder) noexcept final;
+        [[nodiscard]] std::string fmt(const Recorder& recorder) const noexcept final;
     };
 }
 

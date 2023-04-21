@@ -4,41 +4,46 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/writer.hpp>
 #include <ips/logger/formatter.hpp>
+#include <ips/logger/recorder.hpp>
 
 #include <string>
 #include <memory>
 
 namespace ips::logger::details {
-	enum class SeverityEqualMode {
-		STRONG,
-		RANGE,
-	};
-
 	class Logger {
 	public:
-		Logger(std::string_view name,
-			   Severity severity,
-			   std::unique_ptr<Writer>&& writer,
-			   std::shared_ptr<Formatter>&& formatter,
-			   level_t maxLevel = 10,
-			   SeverityEqualMode severityEqualMode = SeverityEqualMode::STRONG);
-		Logger(Logger&& logger);
-		Logger&& operator=(Logger&& logger);
+		enum class SeverityEqualMode {
+			STRONG,
+			RANGE,
+		};
 
-		std::string_view getName() const noexcept;
-		Severity getSeverity() const noexcept;
-		level_t getMaxLevel() const noexcept;
-		SeverityEqualMode getSeverityEqualMode() const noexcept;
-		const std::unique_ptr<Writer>& getWriter() const noexcept;
-		const std::shared_ptr<Formatter>& getFormatter() const noexcept;
+		using writer_t = std::unique_ptr<Writer>;
+		using formatter_t = std::unique_ptr<Formatter>;
+
+	public:
+		Logger(std::string_view id,
+			   Severity severity,
+			   writer_t&& writer,
+			   formatter_t&& formatter,
+			   level_t maxLevel = 10,
+			   SeverityEqualMode severityEqualMode = SeverityEqualMode::RANGE);
+		Logger(Logger&& logger) noexcept;
+		Logger& operator=(Logger&& logger) noexcept;
+
+		[[nodiscard]] Severity getSeverity() const noexcept;
+		[[nodiscard]] SeverityEqualMode getSeverityEqualMode() const noexcept;
+		[[nodiscard]] level_t getMaxLevel() const noexcept;
+		[[nodiscard]] std::string_view getId() const noexcept;
+		[[nodiscard]] Writer& getWriter() const noexcept;
+		[[nodiscard]] const Formatter& getFormatter() const noexcept;
 
 	private:
-		std::string name_;
 		Severity severity_;
-		level_t maxLevel_;
 		SeverityEqualMode severityEqualMode_;
-		std::unique_ptr<Writer> writer_;
-		std::shared_ptr<Formatter> formatter_;
+		level_t maxLevel_;
+		id_t id_;
+		writer_t writer_;
+		formatter_t formatter_;
 	};
 }
 

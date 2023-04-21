@@ -1,6 +1,8 @@
 #ifndef IPSLOGGER_DEFINITIONS_HPP
 #define IPSLOGGER_DEFINITIONS_HPP
 
+#include <iosfwd>
+
 namespace ips::logger
 {
     enum class Severity {
@@ -15,6 +17,7 @@ namespace ips::logger
     };
 
     using level_t = unsigned;
+	using id_t = std::string;
 
     constexpr static level_t kMaxLevelDefault = 10;
     constexpr static level_t kLevelDefault = 3;
