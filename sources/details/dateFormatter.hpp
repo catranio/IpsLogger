@@ -1,14 +1,13 @@
 #ifndef IPSLOGGER_DETAILS_DATEFORMATTER_HPP
 #define IPSLOGGER_DETAILS_DATEFORMATTER_HPP
 
-#include "ips/logger/formatter.hpp"
-#include "ips/logger/definitions.hpp"
+#include <ips/logger/formatter.hpp>
 
 namespace ips::logger::details
 {
     class DateFormatter : public Formatter {
     public:
-        [[nodiscard]] std::string fmt(const Recorder& recorder) const noexcept final;
+        [[nodiscard]] std::string fmt(const Recorder& recorder) const noexcept;
     };
 }
 

@@ -17,15 +17,16 @@ namespace ips::logger
 {
     [[maybe_unused]] void init(const id_t& id, const std::string& filename, Severity severity,
                      level_t maxLevel = kMaxLevelDefault) noexcept;
+	[[maybe_unused]] void initConsole(Severity severity, level_t maxLevel = kMaxLevelDefault) noexcept;
 	[[maybe_unused]] void remove(const id_t& id) noexcept;
 
-    inline Recorder log(const id_t& id, Severity severity, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder fatal(const id_t& id, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder error(const id_t& id, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder warning(const id_t& id, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder info(const id_t& id, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder trace(const id_t& id, level_t level = kLevelDefault) noexcept;
-    [[maybe_unused]] Recorder debug(const id_t& id, level_t level = kLevelDefault) noexcept;
+    inline Recorder log(Severity severity, level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder error(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder warning(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder info(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder trace(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+    [[maybe_unused]] Recorder debug(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
 
 }
 

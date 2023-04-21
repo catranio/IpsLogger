@@ -183,8 +183,4 @@ TEST_CASE("custom recorder") {
 	ips::logger::cpe_trace(1) << "cpe.tr: " << 1;
 }
 
-TEST_CASE("empty id recoder") {
-	ips::logger::trace("") << "recoder " << 1;
-}
-
 TEST_SUITE_END();

@@ -28,7 +28,7 @@ void Storage::write(const Recorder& recorder) noexcept {
 	const auto& id = recorder.getId();
 	std::scoped_lock<mutex_t> lock{mutex_};
 	auto it = storage_.find(id.data());
-	if (it == storage_.end() || isWrite(recorder, it->second) ) {
+	if (it == storage_.end() || !isWrite(recorder, it->second) ) {
 		return;
 	}
 
@@ -38,7 +38,7 @@ void Storage::write(const Recorder& recorder) noexcept {
 }
 
 bool Storage::isWrite(const Recorder& recorder, const Logger& logger) noexcept {
-	if (recorder.getLevel() > logger.getMaxLevel()) {
+	if (recorder.getLevel() >= logger.getMaxLevel()) {
 		return false;
 	}
 
