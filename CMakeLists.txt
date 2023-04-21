@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.11)
 project(IpsLogger)
 set(LIBS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
