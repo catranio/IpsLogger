@@ -7,6 +7,7 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
+#include <mutex>
 
 namespace ips::logger::details {
 	class Storage final {
@@ -30,7 +31,9 @@ namespace ips::logger::details {
 
 	private:
 		using storage_t = std::unordered_map<std::string, Logger>;
+		using mutex_t = std::mutex;
 		storage_t storage_;
+		mutex_t mutex_;
 	};
 }
 

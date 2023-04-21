@@ -9,24 +9,24 @@ Storage& Storage::instance() noexcept {
 
 void Storage::add(Logger&& logger) noexcept {
 	const auto& key = logger.getId();
+	std::scoped_lock<mutex_t> lock{mutex_};
 	auto it = storage_.find(std::string{key});
 	if (it == storage_.end()) {
 		storage_.emplace(key, std::move(logger));
-		return;
 	}
-	assert(it == storage_.end() "ipslogger already register by id=" + key);
 }
 
 void Storage::remove(const id_t& id) noexcept {
+	std::scoped_lock<mutex_t> lock{mutex_};
 	auto it = storage_.find(id);
-	if (it == storage_.end()) {
-		return;
+	if (it != storage_.end()) {
+		storage_.erase(it);
 	}
-	storage_.erase(it);
 }
 
 void Storage::write(const Recorder& recorder) noexcept {
 	const auto& id = recorder.getId();
+	std::scoped_lock<mutex_t> lock{mutex_};
 	auto it = storage_.find(id.data());
 	if (it == storage_.end() || isWrite(recorder, it->second) ) {
 		return;
