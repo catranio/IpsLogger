@@ -1,4 +1,4 @@
-name: linux
+name: macos
 
 on:
   push:
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-11
     strategy:
       matrix:
         build_type: [Release]
@@ -36,7 +36,7 @@ jobs:
       - name: Build
         working-directory: ${{runner.workspace}}/build
         run: |
-          threads=`nproc`
+          threads=`sysctl -n hw.logicalcpu`
           cmake --build . --config ${{matrix.build_type}} --parallel $threads
 
       - name: Test
