@@ -32,4 +32,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git diff-index --quiet HEAD || git commit -m "[update wiki] - ${{ github.event.head_commit.message }}" && git push
+          git diff-index --quiet HEAD || git commit -m "${{ github.event.head_commit.message }}" && git push
