@@ -1,4 +1,4 @@
 Welcome to the IpsLogger wiki!
 
-[Install](Install.md)
-[Usage](#)
+## Table of contents
+* [Install](https://github.com/catranio/IpsLogger/wiki/Install)
