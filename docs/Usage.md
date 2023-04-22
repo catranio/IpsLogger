@@ -54,7 +54,7 @@ ipslog::Recorder{} << "Some data " << 1;
 ipslog::log(Severity::ALL, 10, "some.id") << "Some value " << 1;
 ```
 **Args:**
-1. [Severity]() - Alloy level.
+1. Severity - Alloy level.
 2. maxLogLevel - maximum alloying level within the Severity level.
    - Default value: 10
 3. Id - id of the logger to be registered.
