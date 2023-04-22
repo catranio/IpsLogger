@@ -183,4 +183,16 @@ TEST_CASE("custom recorder") {
 	ips::logger::cpe_trace(1) << "cpe.tr: " << 1;
 }
 
+TEST_CASE_FIXTURE(RecorderFixture, "version") {
+	auto value = Version::version();
+	recorder << value;
+	CHECK(recorder.getBuffer() == value);
+}
+
+TEST_CASE_FIXTURE(RecorderFixture, "version pretty") {
+	auto value = Version::pretty();
+	recorder << value;
+	CHECK(recorder.getBuffer() == value);
+}
+
 TEST_SUITE_END();

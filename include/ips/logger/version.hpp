@@ -7,8 +7,8 @@
 namespace ips::logger {
 	class Version final {
 	public:
-		static const std::string pretty() noexcept;
-		static std::string_view version() noexcept;
+		[[maybe_unused]] static std::string pretty() noexcept;
+		[[maybe_unused]] static std::string_view version() noexcept;
 
 	public:
 		static const unsigned major;
