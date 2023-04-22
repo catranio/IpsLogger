@@ -1,0 +1,36 @@
+name: linux
+
+on:
+  [push, pull_request]:
+    paths:
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_type: [Release]
+
+    steps:
+      - name: Checkout base code
+        uses: actions/checkout@v3
+        with:
+          path: base-code
+
+      - name: Checkout wiki code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{github.repository}}.wiki
+          path: wiki
+      - name: Push to wiki
+        run: |
+          cp -r base-code/docs/* wiki/
+          cd wiki
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "[update wiki] - ${{ github.event.head_commit.message }}" && git push
