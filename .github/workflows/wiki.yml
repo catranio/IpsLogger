@@ -1,4 +1,4 @@
-name: linux
+name: wiki
 
 on:
   push:
@@ -9,21 +9,17 @@ on:
       - 'docs/**'
 
 permissions:
-  contents: read
+  contents: write
+  pages: write
 
 jobs:
-  build:
+  update-wiki:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        build_type: [Release]
-
     steps:
       - name: Checkout base code
         uses: actions/checkout@v3
         with:
           path: base-code
-
       - name: Checkout wiki code
         uses: actions/checkout@v3
         with:
