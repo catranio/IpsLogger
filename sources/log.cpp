@@ -9,7 +9,7 @@
 
 using namespace ips::logger;
 
-[[maybe_unused]] void ips::logger::init(const id_t& id, const std::string& filename,
+[[maybe_unused]] void ips::logger::init::file(const id_t& id, const std::string& filename,
                                  Severity severity, level_t maxLevel) noexcept {
 	details::Storage::instance().add(details::Logger{id, severity,
 									 std::make_unique<details::FileWriter>(filename),
@@ -17,15 +17,11 @@ using namespace ips::logger;
 									  maxLevel});
 }
 
-[[maybe_unused]] void ips::logger::initConsole(Severity severity, level_t maxLevel) noexcept {
+[[maybe_unused]] void ips::logger::init::console(Severity severity, level_t maxLevel) noexcept {
 	details::Storage::instance().add(details::Logger{kConsoleId, severity,
 													 std::make_unique<details::StreamWriter>(std::cout),
 													 std::make_unique<details::ConsoleFormatter>(),
 													 maxLevel});
-}
-
-[[maybe_unused]] void ips::logger::remove(const id_t& id) noexcept {
-	details::Storage::instance().remove(id);
 }
 
 Recorder ips::logger::log(Severity severity, level_t level, const id_t& id) noexcept {

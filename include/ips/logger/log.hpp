@@ -13,13 +13,15 @@
 #include <ips/logger/writer.hpp>
 #include <ips/logger/recorder.hpp>
 
+namespace ips::logger::init {
+	[[maybe_unused]] void file(const id_t& id, const std::string& filename, Severity severity,
+							   level_t maxLevel = kMaxLevelDefault) noexcept;
+	[[maybe_unused]] void console(Severity severity, level_t maxLevel = kMaxLevelDefault) noexcept;
+}
+
+
 namespace ips::logger
 {
-    [[maybe_unused]] void init(const id_t& id, const std::string& filename, Severity severity,
-                     level_t maxLevel = kMaxLevelDefault) noexcept;
-	[[maybe_unused]] void initConsole(Severity severity, level_t maxLevel = kMaxLevelDefault) noexcept;
-	[[maybe_unused]] void remove(const id_t& id) noexcept;
-
     inline Recorder log(Severity severity, level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
     [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
     [[maybe_unused]] Recorder error(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
