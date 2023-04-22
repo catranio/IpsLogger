@@ -1,12 +1,12 @@
 #ifndef IPS_LOGGER_LOG_HPP
 #define IPS_LOGGER_LOG_HPP
 
-#ifndef IPS_LOGGER_ENABLE
-#define IPS_LOGGER_ENABLE true
-#endif /* IPS_LOGGER_ENABLE */
+#ifndef IPS_LOGGER_ERASE
+#define IPS_LOGGER_ERASE false
+#endif /* IPS_LOGGER_ERASE */
 
-#define ipslog if (!IPS_LOGGER_ENABLE) {} else ips::logger
-#define ipslogc(ENABLE_LOG_CONDITION) if (!IPS_LOGGER_ENABLE && !IPS_LOGGER_ENABLE) {} else ips::logger
+#define ipslog if (IPS_LOGGER_ERASE) {} else ips::logger
+#define ipslogc(ENABLE_LOG_CONDITION) if (IPS_LOGGER_ERASE && !ENABLE_LOG_CONDITION) {} else ips::logger
 
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/formatter.hpp>
