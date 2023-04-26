@@ -20,7 +20,8 @@ namespace ips::logger {
 
     constexpr static level_t kMaxLevelDefault = 10;
     constexpr static level_t kLevelDefault = 3;
-	constexpr static const char* kConsoleId = "__ips_console_id__";
+    constexpr static const char *kConsoleId = "__ips_console_id__";
+    constexpr static level_t kTimeRotateDefault = 0;
 
     constexpr const char *to_string(Severity severity) noexcept {
         switch (severity) {
