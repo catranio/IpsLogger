@@ -4,3 +4,4 @@ Welcome to the IpsLogger wiki!
 * [Install](Install)
 * [Configuration](Configuration)
 * [Usage](Usage)
+* [Rotation files](RotateFiles)
