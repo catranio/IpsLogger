@@ -9,12 +9,12 @@
 
 using namespace ips::logger;
 
-[[maybe_unused]] void ips::logger::init::file(const id_t& id, const std::string& filename,
-                                 Severity severity, level_t maxLevel) noexcept {
-	details::Storage::instance().add(details::Logger{id, severity,
-									 std::make_unique<details::FileWriter>(filename),
-									 std::make_unique<details::DateFormatter>(),
-									  maxLevel});
+[[maybe_unused]] void ips::logger::init::file(const id_t &id, const std::string &filename,
+                                              Severity severity, level_t maxLevel, unsigned seconds) noexcept {
+    details::Storage::instance().add(details::Logger{id, severity,
+                                                     std::make_unique<details::FileWriter>(filename, seconds),
+                                                     std::make_unique<details::DateFormatter>(),
+                                                     maxLevel});
 }
 
 [[maybe_unused]] void ips::logger::init::console(Severity severity, level_t maxLevel) noexcept {

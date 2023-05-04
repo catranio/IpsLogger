@@ -3,8 +3,7 @@
 
 #include <string_view>
 
-namespace ips::logger
-{
+namespace ips::logger {
     class Writer {
     public:
         virtual ~Writer() = default;

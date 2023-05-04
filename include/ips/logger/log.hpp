@@ -15,21 +15,27 @@
 #include <ips/logger/recorder.hpp>
 
 namespace ips::logger::init {
-	[[maybe_unused]] void file(const id_t& id, const std::string& filename, Severity severity,
-							   level_t maxLevel = kMaxLevelDefault) noexcept;
-	[[maybe_unused]] void console(Severity severity, level_t maxLevel = kMaxLevelDefault) noexcept;
+    [[maybe_unused]] void file(const id_t &id, const std::string &filename, Severity severity,
+                               level_t maxLevel = kMaxLevelDefault, unsigned seconds = kTimeRotateDefault) noexcept;
+
+    [[maybe_unused]] void console(Severity severity, level_t maxLevel = kMaxLevelDefault) noexcept;
 }
 
 
-namespace ips::logger
-{
-    inline Recorder log(Severity severity, level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder error(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder warning(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder info(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder trace(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
-    [[maybe_unused]] Recorder debug(level_t level = kLevelDefault, const id_t& id = kConsoleId) noexcept;
+namespace ips::logger {
+    inline Recorder log(Severity severity, level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder fatal(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder error(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder warning(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder info(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder trace(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
+
+    [[maybe_unused]] Recorder debug(level_t level = kLevelDefault, const id_t &id = kConsoleId) noexcept;
 
 }
 

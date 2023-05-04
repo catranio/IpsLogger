@@ -3,11 +3,10 @@
 
 #include <ips/logger/formatter.hpp>
 
-namespace ips::logger::details
-{
+namespace ips::logger::details {
     class DateFormatter : public Formatter {
     public:
-        [[nodiscard]] std::string fmt(const Recorder& recorder) const noexcept;
+        [[nodiscard]] std::string fmt(const Recorder &recorder) const noexcept override;
     };
 }
 

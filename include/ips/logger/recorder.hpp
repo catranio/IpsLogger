@@ -9,8 +9,7 @@ namespace std {
 	class exception;
 }
 
-namespace ips::logger
-{
+namespace ips::logger {
     class Recorder final {
     public:
         using timestamp_t = long long;
@@ -18,15 +17,19 @@ namespace ips::logger
 
     public:
         Recorder(id_t id, Severity severity, level_t leve);
+
         ~Recorder();
 
-        Recorder(const Recorder&) = delete;
-        Recorder(Recorder&&) = delete;
-        Recorder& operator=(const Recorder&) = delete;
-        Recorder&& operator=(Recorder&&) = delete;
+        Recorder(const Recorder &) = delete;
+
+        Recorder(Recorder &&) = delete;
+
+        Recorder &operator=(const Recorder &) = delete;
+
+        Recorder &&operator=(Recorder &&) = delete;
 
         template<class T>
-        Recorder& operator<<(const T& value) {
+        Recorder &operator<<(const T &value) {
             if constexpr (std::is_constructible_v<std::string_view, T>) {
                 *this << std::string_view{value};
             } else if constexpr (std::is_signed_v<T>) {
@@ -36,7 +39,7 @@ namespace ips::logger
                 using UnsigndeLongLong = unsigned long long;
                 *this << UnsigndeLongLong{value};
             } else if constexpr (std::is_base_of_v<std::exception, T>) {
-                *this << static_cast<const std::exception&>(value);
+                *this << static_cast<const std::exception &>(value);
             } else {
                 static_assert(!sizeof(T), "Please implement logging for your type.");
             }
@@ -44,20 +47,32 @@ namespace ips::logger
             return *this;
         }
 
-        Recorder& operator<<(char value) noexcept;
-        Recorder& operator<<(std::string_view value) noexcept;
-        Recorder& operator<<(float value) noexcept;
-        Recorder& operator<<(double value) noexcept;
-        Recorder& operator<<(long double value) noexcept;
-        Recorder& operator<<(unsigned long long value) noexcept;
-        Recorder& operator<<(long long value) noexcept;
-        Recorder& operator<<(bool value) noexcept;
-        Recorder& operator<<(const std::exception& value) noexcept;
+        Recorder &operator<<(char value) noexcept;
+
+        Recorder &operator<<(std::string_view value) noexcept;
+
+        Recorder &operator<<(float value) noexcept;
+
+        Recorder &operator<<(double value) noexcept;
+
+        Recorder &operator<<(long double value) noexcept;
+
+        Recorder &operator<<(unsigned long long value) noexcept;
+
+        Recorder &operator<<(long long value) noexcept;
+
+        Recorder &operator<<(bool value) noexcept;
+
+        Recorder &operator<<(const std::exception &value) noexcept;
 
         [[nodiscard]] timestamp_t getTimestamp() const noexcept;
+
         [[nodiscard]] Severity getSeverity() const noexcept;
+
         [[nodiscard]] level_t getLevel() const noexcept;
+
         [[nodiscard]] std::string_view getId() const noexcept;
+
         [[nodiscard]] std::string_view getBuffer() const noexcept;
 
     private:
