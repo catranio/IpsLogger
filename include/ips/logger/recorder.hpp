@@ -41,7 +41,10 @@ namespace ips::logger {
             } else if constexpr (std::is_base_of_v<std::exception, T>) {
                 *this << static_cast<const std::exception &>(value);
             } else {
-                static_assert(!sizeof(T), "Please implement logging for your type.");
+                static_assert(!sizeof(T),
+                              "Please implement logging for your type: "
+                              "ips::logger::Recorder& operator<<(ips::logger::Recorder& recorder, "
+                              "const T& value)");
             }
 
             return *this;
