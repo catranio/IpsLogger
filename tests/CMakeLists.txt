@@ -1,0 +1,17 @@
+FetchContent_Declare(doctest
+        GIT_REPOSITORY https://github.com/doctest/doctest.git
+        GIT_TAG v2.4.11)
+FetchContent_MakeAvailable(doctest)
+
+list(APPEND CMAKE_MODULE_PATH ${doctest_SOURCE_DIR}/scripts/cmake)
+
+ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
+        HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include/*
+        ${CMAKE_CURRENT_SOURCE_DIR}/../sources/*
+        SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*
+        DEPENDS ${PROJECT_NAME} doctest::doctest fmt::fmt)
+
+include(CTest)
+include(doctest)
+doctest_discover_tests(${PROJECT_NAME}.tests)
