@@ -11,7 +11,7 @@ find_package(IpsCMakeModules PATHS ${IpsCMakeModules_CONFIG_DIR})
 
 ips_init(${PROJECT_NAME} CXX 17)
 
-# Dependencies
+#Dependencies
 FetchContent_Declare(fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG 9.1.0
