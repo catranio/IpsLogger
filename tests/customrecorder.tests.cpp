@@ -24,6 +24,7 @@ TEST_CASE("equal buffer") {
   CustomObject customObject;
   Recorder rec{"", Severity::ALL, 4};
   rec << customObject;
+
   CHECK(rec.getBuffer() == customObject.toString());
 }
 
