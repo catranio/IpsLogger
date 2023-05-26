@@ -27,5 +27,6 @@ ips_add_target(${PROJECT_NAME} STATIC
 ips_pedantic_error(${PROJECT_NAME})
 
 if (BUILD_TESTS)
+    enable_testing()
     add_subdirectory(tests)
 endif ()
