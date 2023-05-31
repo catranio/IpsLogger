@@ -18,7 +18,7 @@ ips_add_target(${PROJECT_NAME} STATIC
         DEPENDS fmt)
 ips_pedantic_error(${PROJECT_NAME})
 
-if (${PROJECT_NAME}_BUILD_TESTS)
+if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif ()

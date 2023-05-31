@@ -2,10 +2,6 @@ name: linux
 
 on:
   push:
-    paths:
-      - 'include/**'
-      - 'sources/**'
-      - 'tests/**'
   pull_request:
     paths:
       - 'include/**'
