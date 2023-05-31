@@ -34,8 +34,8 @@ $ cmake .. && make -j
 #include <ips/logger/log.hpp>
 int main() 
 {
-    ips::logger::initConsole(Severity::ALL);
-    ips::logger::info() << "some logger string #" << 1;
+    ipslog::init::console(Severity::ALL);
+    ipslog::info() << "some logger string #" << 1;
 }
 ```
 
@@ -51,8 +51,8 @@ namespace ips::logger {
 
 int main() 
 {
-    ips::logger::init("logger.id", "trace_logger.log", Severity::ALL);
-    ips::logger::custom_trace() << "some logger string #" << 1;
+    ipslog::init::file("logger.id", "trace_logger.log", Severity::ALL);
+    ipslog::custom_trace() << "some logger string #" << 1;
 }
 ```
 
