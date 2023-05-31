@@ -54,4 +54,20 @@ inline Recorder log(Severity severity, level_t level = kLevelDefault,
 
 }  // namespace ips::logger
 
+/* generate ipslog custom function */
+#define ipslog_gen_func(name, postfix, severity)                    \
+  namespace ips::logger {                                           \
+  inline Recorder name##_##postfix(level_t level = kLevelDefault) { \
+    return Recorder{#name, Severity::severity, level};              \
+  }                                                                 \
+  }
+
+#define ipslog_gen_funcs(name)             \
+  ipslog_gen_func(name, fatal, FATAL);     \
+  ipslog_gen_func(name, error, ERROR);     \
+  ipslog_gen_func(name, warning, WARNING); \
+  ipslog_gen_func(name, info, INFO);       \
+  ipslog_gen_func(name, trace, TRACE);     \
+  ipslog_gen_func(name, debug, DEBUG);
+
 #endif /* IPS_LOGGER_LOG_HPP */

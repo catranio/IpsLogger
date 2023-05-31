@@ -5,3 +5,4 @@ Welcome to the IpsLogger wiki!
 * [Configuration](Configuration)
 * [Usage](Usage)
 * [Rotation files](RotateFiles)
+* [Support macros](macros)

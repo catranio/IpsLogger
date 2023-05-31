@@ -156,13 +156,9 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
   }
 }
 
-namespace ips::logger {
-inline Recorder cpe_trace(level_t level) {
-  return Recorder{"cpe", Severity::TRACE, level};
-}
-}  // namespace ips::logger
+ipslog_gen_funcs(cpe);
 
-TEST_CASE("custom recorder") { ips::logger::cpe_trace(1) << "cpe.tr: " << 1; }
+TEST_CASE("custom recorder") { ips::logger::cpe_trace() << "cpe.tr: " << 1; }
 
 TEST_CASE_FIXTURE(RecorderFixture, "version") {
   auto value = Version::version();
