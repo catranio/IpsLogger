@@ -1,7 +1,2 @@
 # cmake
 cmake-build*
-
-# dependencies
-libs/common
-libs/fmt
-libs/doctest
