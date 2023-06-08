@@ -6,7 +6,7 @@ ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
         ${CMAKE_CURRENT_SOURCE_DIR}/../include/*
         ${CMAKE_CURRENT_SOURCE_DIR}/../sources/*
         SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*
-        DEPENDS ${PROJECT_NAME} doctest::doctest fmt::fmt)
+        DEPENDS ${PROJECT_NAMESPACE}::${PROJECT_NAME} doctest::doctest fmt::fmt)
 
 include(CTest)
 include(doctest)
