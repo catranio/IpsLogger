@@ -28,4 +28,12 @@ TEST_CASE("equal buffer") {
   CHECK(rec.getBuffer() == customObject.toString());
 }
 
+TEST_CASE("equal buffer with prefix") {
+  CustomObject customObject;
+  Recorder rec{"", Severity::ALL, 4};
+  rec << "one " << customObject;
+
+  CHECK(rec.getBuffer() == "one " + customObject.toString());
+}
+
 TEST_SUITE_END();

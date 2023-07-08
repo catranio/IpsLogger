@@ -16,7 +16,6 @@ ips_add_target(${PROJECT_NAMESPACE}::${PROJECT_NAME} STATIC
         HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*
         SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sources/*
         DEPENDS fmt::fmt)
-ips_pedantic_error(${PROJECT_NAMESPACE}::${PROJECT_NAME})
 
 if (BUILD_TESTS)
     enable_testing()

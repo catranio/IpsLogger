@@ -44,7 +44,7 @@ TEST_CASE("dateformatter") {
 
   auto timestamp = rec.getTimestamp();
 #if defined(__APPLE__)
-  timestamp *= 1000; /* linux use nanoseconds for time_point*/
+  timestamp *= 1000; /* linux use nanoseconds for time_point */
 #endif
   const auto &ns = std::chrono::nanoseconds{timestamp};
   const auto &mc = std::chrono::duration_cast<std::chrono::microseconds>(ns);
