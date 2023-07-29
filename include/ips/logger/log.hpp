@@ -9,9 +9,9 @@
   if (IPS_LOGGER_ERASE) { \
   } else                  \
     ips::logger
-#define ipslogc(ENABLE_LOG_CONDITION)              \
-  if (IPS_LOGGER_ERASE && !ENABLE_LOG_CONDITION) { \
-  } else                                           \
+#define ipslogc(ENABLE_LOG_CONDITION)                \
+  if (IPS_LOGGER_ERASE && !(ENABLE_LOG_CONDITION)) { \
+  } else                                             \
     ips::logger
 
 #include <ips/logger/definitions.hpp>
