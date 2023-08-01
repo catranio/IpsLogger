@@ -8,6 +8,5 @@ ips_add_target(${PROJECT_NAME}.tests EXECUTABLE
         SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*
         DEPENDS ${PROJECT_NAMESPACE}::${PROJECT_NAME} doctest::doctest fmt::fmt)
 
-include(CTest)
 include(doctest)
 doctest_discover_tests(${PROJECT_NAME}.tests)
