@@ -1,22 +1,21 @@
 #include <doctest/doctest.h>
 
-#include <chrono>
 #include <ips/logger/log.hpp>
 #include <ips/logger/recorder.hpp>
 #include <limits>
 #include <random>
 #include <stdexcept>
 
-using namespace ::ips::logger;
+namespace ips::logger {
 
 class RecorderFixture {
  public:
-  RecorderFixture() : recorder("", severity, level) {}
+  RecorderFixture() = default;
 
   template <typename T>
-  void check_value(const T& value, const std::string& expected) {
-    recorder << value;
-    CHECK(recorder.getBuffer() == expected);
+  void check_value(const T& value, const std::string_view expected) {
+    recorder_ << value;
+    CHECK(recorder_.getBuffer() == expected);
   }
 
   template <typename TYPE>
@@ -57,15 +56,18 @@ class RecorderFixture {
     }
   }
 
-  static constexpr Severity severity = Severity::DEBUG;
-  static constexpr level_t level = level_t{6};
-  Recorder recorder;
+  Recorder& getRecorder() { return recorder_; }
+
+ private:
+  static constexpr Severity kSeverity = Severity::kDebug;
+  static constexpr level_t kLevel = level_t{6};
+  Recorder recorder_ = {"", kSeverity, kLevel};
 };
 
-TEST_SUITE_BEGIN("recorder");
+TEST_SUITE_BEGIN("recorder_");
 
 TEST_CASE("correct constructor severity") {
-  auto severity = Severity::DEBUG;
+  auto severity = Severity::kDebug;
   auto level = level_t{6};
 
   auto firstTimestamp =
@@ -88,12 +90,12 @@ TEST_CASE("correct constructor name") {
 
   auto firstTimestamp =
       std::chrono::system_clock::now().time_since_epoch().count();
-  auto rec = Recorder{id, Severity::TRACE, level};
+  auto rec = Recorder{id, Severity::kTrace, level};
   auto secondTimestamp =
       std::chrono::system_clock::now().time_since_epoch().count();
 
   CHECK(rec.getId() == id);
-  CHECK(rec.getSeverity() == Severity::TRACE);
+  CHECK(rec.getSeverity() == Severity::kTrace);
   CHECK(rec.getLevel() == level);
   CHECK(rec.getBuffer().empty());
   CHECK(rec.getTimestamp() >= firstTimestamp);
@@ -136,12 +138,8 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
   }
 
   SUBCASE("exception") {
-    try {
-      throw std::runtime_error("runtime error");
-    } catch (std::exception& e) {
-      recorder << e;
-    }
-    CHECK(recorder.getBuffer() == "runtime error");
+    getRecorder() << std::runtime_error{"runtime error"};
+    CHECK(getRecorder().getBuffer() == "runtime error");
   }
 
   SUBCASE("string") {
@@ -151,25 +149,40 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
 
   SUBCASE("string_view") {
     auto value = std::string_view{"baz"};
-    recorder << value;
-    CHECK(recorder.getBuffer() == value);
+    getRecorder() << value;
+    CHECK(getRecorder().getBuffer() == value);
   }
 }
 
-ipslog_gen_funcs(cpe);
+TEST_SUITE_END();
 
-TEST_CASE("custom recorder") { ips::logger::cpe_trace() << "cpe.tr: " << 1; }
+TEST_SUITE_BEGIN("custom record functions");
+
+ipslog_gen_funcs(ips);
+
+TEST_CASE("fatal") { ips::logger::ips_fatal() << "ips.fatal: " << 1; }
+TEST_CASE("error") { ips::logger::ips_error() << "ips.error: " << 1; }
+TEST_CASE("warning") { ips::logger::ips_warning() << "ips.warning: " << 1; }
+TEST_CASE("info") { ips::logger::ips_info() << "cpe.info: " << 1; }
+TEST_CASE("trace") { ips::logger::ips_trace() << "cpe.trace: " << 1; }
+TEST_CASE("debug") { ips::logger::ips_debug() << "cpe.debug: " << 1; }
+
+TEST_SUITE_END();
+
+TEST_SUITE_BEGIN("version");
 
 TEST_CASE_FIXTURE(RecorderFixture, "version") {
-  auto value = Version::version();
-  recorder << value;
-  CHECK(recorder.getBuffer() == value);
+  const auto value = Version::version();
+  getRecorder() << value;
+  CHECK(getRecorder().getBuffer() == value);
 }
 
 TEST_CASE_FIXTURE(RecorderFixture, "version pretty") {
-  auto value = Version::pretty();
-  recorder << value;
-  CHECK(recorder.getBuffer() == value);
+  const auto value = Version::pretty();
+  getRecorder() << value;
+  CHECK(getRecorder().getBuffer() == value);
 }
 
 TEST_SUITE_END();
+
+}  // namespace ips::logger

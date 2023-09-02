@@ -8,7 +8,6 @@ namespace ips::logger::details {
 class StreamWriter : public Writer {
  public:
   explicit StreamWriter(std::ostream& os);
-  ~StreamWriter() override;
 
   void write(std::string_view data) noexcept final;
 

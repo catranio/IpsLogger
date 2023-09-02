@@ -8,16 +8,18 @@
 #include "details/storage.hpp"
 #include "details/streamWriter.hpp"
 
-using namespace ips::logger;
+namespace ips::logger {
 
 [[maybe_unused]] void ips::logger::init::file(const id_t& id,
                                               const std::string& filename,
                                               Severity severity,
                                               level_t maxLevel,
-                                              unsigned seconds) noexcept {
-  details::Storage::instance().add(details::Logger{
-      id, severity, std::make_unique<details::FileWriter>(filename, seconds),
-      std::make_unique<details::DateFormatter>(), maxLevel});
+                                              seconds_t seconds) noexcept {
+  details::Storage::instance().add(
+      details::Logger{id, severity,
+                      std::make_unique<details::FileWriter>(
+                          filename, std::chrono::seconds{seconds}),
+                      std::make_unique<details::DateFormatter>(), maxLevel});
 }
 
 [[maybe_unused]] void ips::logger::init::console(Severity severity,
@@ -27,37 +29,37 @@ using namespace ips::logger;
       std::make_unique<details::ConsoleFormatter>(), maxLevel});
 }
 
-Recorder ips::logger::log(Severity severity, level_t level,
-                          const id_t& id) noexcept {
+[[maybe_unused]] void ips::logger::init::erase(const id_t& id) noexcept {
+  details::Storage::instance().remove(id);
+}
+
+[[maybe_unused]] Recorder log(Severity severity, level_t level,
+                              const id_t& id) noexcept {
   return Recorder{id, severity, level};
 }
 
-[[maybe_unused]] Recorder ips::logger::fatal(level_t level,
-                                             const id_t& id) noexcept {
-  return log(Severity::FATAL, level, id);
+[[maybe_unused]] Recorder fatal(level_t level, const id_t& id) noexcept {
+  return log(Severity::kFatal, level, id);
 }
 
-[[maybe_unused]] Recorder ips::logger::error(level_t level,
-                                             const id_t& id) noexcept {
-  return log(Severity::ERROR, level, id);
+[[maybe_unused]] Recorder error(level_t level, const id_t& id) noexcept {
+  return log(Severity::kError, level, id);
 }
 
-[[maybe_unused]] Recorder ips::logger::warning(level_t level,
-                                               const id_t& id) noexcept {
-  return log(Severity::WARNING, level, id);
+[[maybe_unused]] Recorder warning(level_t level, const id_t& id) noexcept {
+  return log(Severity::kWarning, level, id);
 }
 
-[[maybe_unused]] Recorder ips::logger::info(level_t level,
-                                            const id_t& id) noexcept {
-  return log(Severity::INFO, level, id);
+[[maybe_unused]] Recorder info(level_t level, const id_t& id) noexcept {
+  return log(Severity::kInfo, level, id);
 }
 
-[[maybe_unused]] Recorder ips::logger::trace(level_t level,
-                                             const id_t& id) noexcept {
-  return log(Severity::TRACE, level, id);
+[[maybe_unused]] Recorder trace(level_t level, const id_t& id) noexcept {
+  return log(Severity::kTrace, level, id);
 }
 
-[[maybe_unused]] Recorder ips::logger::debug(level_t level,
-                                             const id_t& id) noexcept {
-  return log(Severity::DEBUG, level, id);
+[[maybe_unused]] Recorder debug(level_t level, const id_t& id) noexcept {
+  return log(Severity::kDebug, level, id);
 }
+
+}  // namespace ips::logger

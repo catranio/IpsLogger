@@ -12,19 +12,16 @@ namespace ips::logger::details {
 class Logger {
  public:
   enum class SeverityEqualMode {
-    STRONG,
-    RANGE,
+    kStrong,
+    kRange,
   };
 
   using writer_t = std::unique_ptr<Writer>;
   using formatter_t = std::unique_ptr<Formatter>;
 
- public:
   Logger(std::string_view id, Severity severity, writer_t&& writer,
          formatter_t&& formatter, level_t maxLevel = 10,
-         SeverityEqualMode severityEqualMode = SeverityEqualMode::RANGE);
-  Logger(Logger&& logger) noexcept;
-  Logger& operator=(Logger&& logger) noexcept;
+         SeverityEqualMode severityEqualMode = SeverityEqualMode::kRange);
 
   [[nodiscard]] Severity getSeverity() const noexcept;
   [[nodiscard]] SeverityEqualMode getSeverityEqualMode() const noexcept;

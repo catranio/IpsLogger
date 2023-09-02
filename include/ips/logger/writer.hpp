@@ -1,6 +1,7 @@
 #ifndef IPSLOGGER_WRITER_HPP
 #define IPSLOGGER_WRITER_HPP
 
+#include <iosfwd>
 #include <string_view>
 
 namespace ips::logger {

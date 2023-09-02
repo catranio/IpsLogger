@@ -6,7 +6,7 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
-using namespace ips::logger::details;
+namespace ips::logger::details {
 
 std::string DateFormatter::fmt(const Recorder& recorder) const noexcept {
   auto timestamp = recorder.getTimestamp();
@@ -20,3 +20,5 @@ std::string DateFormatter::fmt(const Recorder& recorder) const noexcept {
                      ips::logger::to_string(recorder.getSeverity()),
                      recorder.getLevel(), recorder.getBuffer());
 }
+
+}  // namespace ips::logger::details

@@ -5,27 +5,18 @@
 
 #include "definitions.hpp"
 
-namespace std {
-class exception;
-}
-
 namespace ips::logger {
 class Recorder final {
  public:
   using timestamp_t = long long;
   using message_buffer_t = std::string;
 
- public:
   Recorder(id_t id, Severity severity, level_t leve);
-
   ~Recorder();
 
   Recorder(const Recorder&) = delete;
-
   Recorder(Recorder&&) = delete;
-
   Recorder& operator=(const Recorder&) = delete;
-
   Recorder&& operator=(Recorder&&) = delete;
 
   template <class T>
@@ -52,31 +43,19 @@ class Recorder final {
   }
 
   Recorder& operator<<(char value) noexcept;
-
   Recorder& operator<<(std::string_view value) noexcept;
-
   Recorder& operator<<(float value) noexcept;
-
   Recorder& operator<<(double value) noexcept;
-
   Recorder& operator<<(long double value) noexcept;
-
   Recorder& operator<<(unsigned long long value) noexcept;
-
   Recorder& operator<<(long long value) noexcept;
-
   Recorder& operator<<(bool value) noexcept;
-
   Recorder& operator<<(const std::exception& value) noexcept;
 
   [[nodiscard]] timestamp_t getTimestamp() const noexcept;
-
   [[nodiscard]] Severity getSeverity() const noexcept;
-
   [[nodiscard]] level_t getLevel() const noexcept;
-
   [[nodiscard]] std::string_view getId() const noexcept;
-
   [[nodiscard]] std::string_view getBuffer() const noexcept;
 
  private:

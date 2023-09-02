@@ -10,13 +10,12 @@ class Version final {
   [[maybe_unused]] static std::string pretty() noexcept;
   [[maybe_unused]] static std::string_view version() noexcept;
 
- public:
-  static const unsigned major;
-  static const unsigned minor;
-  static const unsigned patch;
+  static const unsigned kMajor;
+  static const unsigned kMinor;
+  static const unsigned kPatch;
 
  private:
-  static const std::string version_;
+  static const std::string kVersion;
 };
 }  // namespace ips::logger
 

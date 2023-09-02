@@ -1,6 +1,7 @@
 #ifndef IPSLOGGER_DETAILS_FILEWRITER_HPP
 #define IPSLOGGER_DETAILS_FILEWRITER_HPP
 
+#include <chrono>
 #include <fstream>
 #include <ips/logger/writer.hpp>
 #include <string>
@@ -8,7 +9,8 @@
 namespace ips::logger::details {
 class FileWriter : public Writer {
  public:
-  explicit FileWriter(std::string_view filename, unsigned rotateInterval = 0);
+  explicit FileWriter(std::string_view filename,
+                      std::chrono::seconds intervalRotate = {});
 
   ~FileWriter() override;
 
@@ -16,13 +18,11 @@ class FileWriter : public Writer {
 
  private:
   void rotate() noexcept;
-
   bool open(std::string_view filename) noexcept;
-
-  constexpr std::string_view rotateFormat() const noexcept;
+  std::string dataPrefix() const noexcept;
 
  private:
-  using seconds_t = time_t;
+  using seconds_t = std::chrono::seconds;
   std::ofstream file_;
   std::string filename_;
   seconds_t intervalRotate_;

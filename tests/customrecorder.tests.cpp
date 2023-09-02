@@ -5,7 +5,7 @@
 class CustomObject {
  public:
   [[nodiscard]] std::string toString() const {
-    return "CustomObject to_string work!";
+    return name_ + " to_string work!";
   }
 
   friend ::ips::logger::Recorder& operator<<(
@@ -14,6 +14,9 @@ class CustomObject {
     recorder << customObject.toString();
     return recorder;
   }
+
+ private:
+  const std::string name_ = "CustomObject";
 };
 
 using namespace ips::logger;
@@ -21,16 +24,16 @@ using namespace ips::logger;
 TEST_SUITE_BEGIN("custom recorder 'operator <<'");
 
 TEST_CASE("equal buffer") {
-  CustomObject customObject;
-  Recorder rec{"", Severity::ALL, 4};
+  const CustomObject customObject;
+  Recorder rec{"", Severity::kAll, 4};
   rec << customObject;
 
   CHECK(rec.getBuffer() == customObject.toString());
 }
 
 TEST_CASE("equal buffer with prefix") {
-  CustomObject customObject;
-  Recorder rec{"", Severity::ALL, 4};
+  const CustomObject customObject;
+  Recorder rec{"", Severity::kAll, 4};
   rec << "one " << customObject;
 
   CHECK(rec.getBuffer() == "one " + customObject.toString());

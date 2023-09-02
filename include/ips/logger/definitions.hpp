@@ -2,44 +2,48 @@
 #define IPSLOGGER_DEFINITIONS_HPP
 
 #include <iosfwd>
+#include <string_view>
 
 namespace ips::logger {
 enum class Severity {
-  NONE,
-  FATAL,
-  ERROR,
-  WARNING,
-  INFO,
-  TRACE,
-  DEBUG,
-  ALL,
+  kNone,
+  kFatal,
+  kError,
+  kWarning,
+  kInfo,
+  kTrace,
+  kDebug,
+  kAll,
 };
 
 using level_t = unsigned;
 using id_t = std::string;
+using seconds_t = unsigned;
 
 constexpr static level_t kMaxLevelDefault = 10;
 constexpr static level_t kLevelDefault = 3;
 constexpr static const char* kConsoleId = "__ips_console_id__";
-constexpr static level_t kTimeRotateDefault = 0;
+constexpr static seconds_t kTimeRotateDefault = 0;
 
-constexpr const char* to_string(Severity severity) noexcept {
+constexpr std::string_view to_string(Severity severity) noexcept {
+  using enum Severity;
   switch (severity) {
-    case Severity::FATAL:
+    case kFatal:
       return "fatal";
-    case Severity::ERROR:
+    case kError:
       return "error";
-    case Severity::WARNING:
+    case kWarning:
       return "warning";
-    case Severity::INFO:
+    case kInfo:
       return "info";
-    case Severity::TRACE:
+    case kTrace:
       return "trace";
-    case Severity::DEBUG:
+    case kDebug:
       return "debug";
-    case Severity::ALL:
+    case kAll:
       return "all";
-    case Severity::NONE:
+    case kNone:
+      return "none";
     default:
       return "";
   }
