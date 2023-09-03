@@ -7,7 +7,7 @@ Time is set in seconds and starts as soon as the log file is created.
 auto kLevel = 3;
 auto kRotateTimeInSeconds = 3600;
 ipslog::init::file("__some.id__", "file.name",
-                   Severity::ALL, kLevel, kRotateTimeInSeconds);
+                   Severity::kAll, kLevel, kRotateTimeInSeconds);
 ```
 
 If time is set to `0` (default), file rotation is disabled.
