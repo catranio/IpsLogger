@@ -1,12 +1,11 @@
 #include <doctest/doctest.h>
 
+#include <chrono>
 #include <ips/logger/log.hpp>
 #include <ips/logger/recorder.hpp>
 #include <limits>
 #include <random>
 #include <stdexcept>
-
-namespace ips::logger {
 
 class RecorderFixture {
  public:
@@ -56,17 +55,19 @@ class RecorderFixture {
     }
   }
 
-  Recorder& getRecorder() { return recorder_; }
+  ips::logger::Recorder& getRecorder() { return recorder_; }
 
  private:
-  static constexpr Severity kSeverity = Severity::kDebug;
-  static constexpr level_t kLevel = level_t{6};
-  Recorder recorder_ = {"", kSeverity, kLevel};
+  static constexpr ips::logger::Severity kSeverity =
+      ips::logger::Severity::kDebug;
+  static constexpr ips::logger::level_t kLevel = ips::logger::level_t{6};
+  ips::logger::Recorder recorder_ = {"", kSeverity, kLevel};
 };
 
-TEST_SUITE_BEGIN("recorder_");
+TEST_SUITE_BEGIN("recorder");
 
 TEST_CASE("correct constructor severity") {
+  using namespace ips::logger;
   auto severity = Severity::kDebug;
   auto level = level_t{6};
 
@@ -85,6 +86,7 @@ TEST_CASE("correct constructor severity") {
 }
 
 TEST_CASE("correct constructor name") {
+  using namespace ips::logger;
   auto id = std::string{"alarm.cdr"};
   auto level = level_t{6};
 
@@ -101,6 +103,8 @@ TEST_CASE("correct constructor name") {
   CHECK(rec.getTimestamp() >= firstTimestamp);
   CHECK(rec.getTimestamp() <= secondTimestamp);
 }
+
+TEST_SUITE_END();
 
 TEST_CASE_FIXTURE(RecorderFixture, "format") {
   SUBCASE("unsigned") { check_numeric_value<unsigned>(); }
@@ -172,17 +176,17 @@ TEST_SUITE_END();
 TEST_SUITE_BEGIN("version");
 
 TEST_CASE_FIXTURE(RecorderFixture, "version") {
+  using namespace ips::logger;
   const auto value = Version::version();
   getRecorder() << value;
   CHECK(getRecorder().getBuffer() == value);
 }
 
 TEST_CASE_FIXTURE(RecorderFixture, "version pretty") {
+  using namespace ips::logger;
   const auto value = Version::pretty();
   getRecorder() << value;
   CHECK(getRecorder().getBuffer() == value);
 }
 
 TEST_SUITE_END();
-
-}  // namespace ips::logger

@@ -6,11 +6,10 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
-namespace ips::logger {
-
 TEST_SUITE_BEGIN("formatter");
 
 TEST_CASE("dateformatter") {
+  using namespace ips::logger;
   const auto severity = Severity::kTrace;
   const auto level = 2;
   const auto *message = "some message for logging.";
@@ -34,5 +33,3 @@ TEST_CASE("dateformatter") {
 }
 
 TEST_SUITE_END();
-
-}  // namespace ips::logger

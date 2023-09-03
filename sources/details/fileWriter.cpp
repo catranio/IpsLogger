@@ -11,8 +11,8 @@ FileWriter::FileWriter(std::string_view filename,
                        std::chrono::seconds intervalRotate)
     : filename_(filename), intervalRotate_(intervalRotate) {
   open(filename_);
-  using namespace std::chrono_literals;
-  if (intervalRotate_ > 0s) {
+  using namespace std::chrono;
+  if (intervalRotate_ > seconds{1}) {
     rotate();
   }
 }
@@ -25,11 +25,10 @@ void FileWriter::write(std::string_view data) noexcept {
 
 void FileWriter::rotate() noexcept {
   std::thread t([this]() {
-    using namespace std::chrono_literals;
     while (true) {
-      if (intervalRotate_ < 1s) return;
+      if (intervalRotate_ < std::chrono::seconds{1}) return;
       std::this_thread::sleep_for(std::chrono::seconds(intervalRotate_));
-      if (intervalRotate_ < 1s) return;
+      if (intervalRotate_ < std::chrono::seconds{1}) return;
       auto fs = std::filesystem::path{filename_};
       auto filename =
           fs.stem().string() + "_" + dataPrefix() + fs.extension().string();
@@ -46,15 +45,16 @@ bool FileWriter::open(std::string_view filename) noexcept {
 }
 
 std::string FileWriter::dataPrefix() const noexcept {
-  using namespace std::chrono_literals;
-  if (intervalRotate_ < 60s) {
-    return fmt::format("_{:%Y%m%d_%H%M%S}", std::chrono::system_clock::now());
-  } else if (intervalRotate_ < 1h) {
-    return fmt::format("_{:%Y%m%d_%H%M}", std::chrono::system_clock::now());
-  } else if (intervalRotate_ < 24h) {
-    return fmt::format("_{:%Y%m%d_%H}", std::chrono::system_clock::now());
+  using namespace std::chrono;
+  const auto now = system_clock::now();
+  if (intervalRotate_ < seconds{60}) {
+    return fmt::format("_{:%Y%m%d_%H%M%S}", now);
+  } else if (intervalRotate_ < hours{1}) {
+    return fmt::format("_{:%Y%m%d_%H%M}", now);
+  } else if (intervalRotate_ < days{1}) {
+    return fmt::format("_{:%Y%m%d_%H}", now);
   } else {
-    return fmt::format("_{:%Y%m%d}", std::chrono::system_clock::now());
+    return fmt::format("_{:%Y%m%d}", now);
   }
 }
 
