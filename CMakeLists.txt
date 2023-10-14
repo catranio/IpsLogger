@@ -9,7 +9,7 @@ FetchContent_MakeAvailable(IpsCMakeModules)
 
 ips_init(CXX 20)
 
-#Dependencies
+# Dependencies
 ips_fetch(fmt GIT_REPOSITORY https://github.com/fmtlib/fmt.git GIT_TAG 10.1.1)
 
 ips_add_target(${PROJECT_NAMESPACE}::${PROJECT_NAME} STATIC
@@ -20,4 +20,8 @@ ips_add_target(${PROJECT_NAMESPACE}::${PROJECT_NAME} STATIC
 if (BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
+endif ()
+
+if (BUILD_BENCHMARK)
+    add_subdirectory(benchmark)
 endif ()
