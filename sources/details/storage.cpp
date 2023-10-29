@@ -12,7 +12,7 @@ void Storage::add(Logger&& logger) noexcept {
   const std::scoped_lock lock{mutex_};
   auto it = storage_.find(id);
   if (it == storage_.end()) {
-    storage_.try_emplace(id, std::move(logger));
+    storage_.try_emplace(id_t{id}, std::move(logger));
   }
 }
 
@@ -27,12 +27,12 @@ void Storage::remove(const id_t& id) noexcept {
 void Storage::write(const Recorder& recorder) noexcept {
   const auto id = recorder.getId();
   const std::scoped_lock lock{mutex_};
-  auto it = storage_.find(id);
-  if (it == storage_.end() || !isWrite(recorder, it->second)) {
+  const auto cit = storage_.find(id);
+  if (cit == storage_.end() || !isWrite(recorder, cit->second)) {
     return;
   }
 
-  const auto& logger = it->second;
+  const auto& logger = cit->second;
   const auto msg = logger.getFormatter().fmt(recorder);
   logger.getWriter().write(msg);
 }

@@ -1,6 +1,7 @@
 #ifndef IPSLOGGER_RECORDER_HPP
 #define IPSLOGGER_RECORDER_HPP
 
+#include <concepts>
 #include <string>
 
 #include "definitions.hpp"
@@ -19,26 +20,32 @@ class Recorder final {
   Recorder& operator=(const Recorder&) = delete;
   Recorder&& operator=(Recorder&&) = delete;
 
-  template <class T>
-  Recorder& operator<<(const T& value) {
-    if constexpr (std::is_constructible_v<std::string_view, T>) {
-      *this << std::string_view{value};
-    } else if constexpr (std::is_signed_v<T>) {
-      using LongLong = long long;
-      *this << LongLong{value};
-    } else if constexpr (std::is_unsigned_v<T>) {
-      using UnsigndeLongLong = unsigned long long;
-      *this << UnsigndeLongLong{value};
-    } else if constexpr (std::is_base_of_v<std::exception, T>) {
-      *this << static_cast<const std::exception&>(value);
-    } else {
-      static_assert(
-          !sizeof(T),
-          "Please implement logging for your type: "
-          "ips::logger::Recorder& operator<<(ips::logger::Recorder& recorder, "
-          "const T& value)");
-    }
+  Recorder& operator<<(
+      const std::convertible_to<std::string_view> auto& value) {
+    return *this << std::string_view{value};
+  }
 
+  Recorder& operator<<(const std::signed_integral auto& value) {
+    using LongLong = long long;
+    return *this << LongLong{value};
+  }
+
+  Recorder& operator<<(const std::unsigned_integral auto& value) {
+    using UnsigndeLongLong = unsigned long long;
+    return *this << UnsigndeLongLong{value};
+  }
+
+  Recorder& operator<<(const std::derived_from<std::exception> auto& value) {
+    return *this << static_cast<const std::exception&>(value);
+  }
+
+  template <class T>
+  Recorder& operator<<(const T&) {
+    static_assert(
+        !sizeof(T),
+        "Please implement logging for your type: "
+        "ips::logger::Recorder& operator<<(ips::logger::Recorder& recorder, "
+        "const T& value)");
     return *this;
   }
 

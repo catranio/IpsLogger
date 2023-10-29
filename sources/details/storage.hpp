@@ -29,7 +29,20 @@ class Storage final {
  private:
   static bool isWrite(const Recorder& recorder, const Logger& logger) noexcept;
 
-  using storage_t = std::unordered_map<std::string_view, Logger>;
+  struct string_hash {
+    using hash_type = std::hash<std::string_view>;
+    using is_transparent [[maybe_unused]] = void;
+
+    std::size_t operator()(const char* str) const { return hash_type{}(str); }
+    std::size_t operator()(std::string_view str) const {
+      return hash_type{}(str);
+    }
+    std::size_t operator()(const std::string& str) const {
+      return hash_type{}(str);
+    }
+  };
+  using storage_t =
+      std::unordered_map<std::string, Logger, string_hash, std::equal_to<>>;
   using mutex_t = std::mutex;
   storage_t storage_;
   mutex_t mutex_;
