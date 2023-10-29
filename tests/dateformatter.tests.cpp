@@ -26,9 +26,9 @@ TEST_CASE("dateformatter") {
   const auto &ns = std::chrono::nanoseconds{timestamp};
   const auto &mc = std::chrono::duration_cast<std::chrono::microseconds>(ns);
   const auto &tp = std::chrono::time_point<std::chrono::system_clock>(mc);
-  auto expect = fmt::format("[{:%Y.%m.%d %H:%M:}{:%S}] {}({}): {}\n", tp, mc,
-                            ips::logger::to_string(rec.getSeverity()),
-                            rec.getLevel(), rec.getBuffer());
+  auto expect =
+      fmt::format("[{:%Y.%m.%d %H:%M:}{:%S}] {}: {}\n", tp, mc,
+                  ips::logger::to_string(rec.getSeverity()), rec.getBuffer());
   CHECK(assert == expect);
 }
 
