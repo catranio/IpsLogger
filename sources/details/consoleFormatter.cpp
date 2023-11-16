@@ -6,16 +6,15 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
+#include "utils.hpp"
+
 namespace ips::logger::details {
 
 std::string ConsoleFormatter::fmt(const Recorder& recorder) const noexcept {
-  auto res = DateFormatter::fmt(recorder);
-
   fmt::color color;
   switch (recorder.getSeverity()) {
     using enum Severity;
     using enum fmt::color;
-
     case kFatal:
     case kError:
       color = indian_red;
@@ -36,7 +35,15 @@ std::string ConsoleFormatter::fmt(const Recorder& recorder) const noexcept {
       color = white;
       break;
   }
-  return fmt::format(fg(color), FMT_STRING("{}"), res);
+
+  std::string buffer;
+  buffer.reserve(recorder.getBuffer().size() + 32);
+  fmt::format_to(
+      std::back_inserter(buffer), "[{}|{}] ",
+      utils::to_string(recorder.getTimestamp()),
+      fmt::format(fg(color), "{}", to_string(recorder.getSeverity())));
+  buffer += recorder.getBuffer() + "\n";
+  return buffer;
 }
 
 }  // namespace ips::logger::details

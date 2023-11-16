@@ -1,6 +1,7 @@
 #ifndef IPSLOGGER_RECORDER_HPP
 #define IPSLOGGER_RECORDER_HPP
 
+#include <chrono>
 #include <concepts>
 #include <string>
 
@@ -9,7 +10,7 @@
 namespace ips::logger {
 class Recorder final {
  public:
-  using timestamp_t = long long;
+  using timestamp_t = std::chrono::time_point<std::chrono::system_clock>;
   using message_buffer_t = std::string;
 
   Recorder(id_t id, Severity severity, level_t leve);
@@ -63,7 +64,7 @@ class Recorder final {
   [[nodiscard]] Severity getSeverity() const noexcept;
   [[nodiscard]] level_t getLevel() const noexcept;
   [[nodiscard]] std::string_view getId() const noexcept;
-  [[nodiscard]] std::string_view getBuffer() const noexcept;
+  [[nodiscard]] const message_buffer_t& getBuffer() const noexcept;
 
  private:
   const Severity severity_;

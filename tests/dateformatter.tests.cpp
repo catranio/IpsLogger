@@ -3,6 +3,7 @@
 #include <fmt/format.h>
 
 #include <details/dateFormatter.hpp>
+#include <details/utils.hpp>
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
@@ -19,16 +20,13 @@ TEST_CASE("dateformatter") {
   rec << message;
   auto assert = df.fmt(rec);
 
-  auto timestamp = rec.getTimestamp();
-#if defined(__APPLE__)
-  timestamp *= 1000; /* linux use nanoseconds for time_point */
-#endif
-  const auto &ns = std::chrono::nanoseconds{timestamp};
-  const auto &mc = std::chrono::duration_cast<std::chrono::microseconds>(ns);
-  const auto &tp = std::chrono::time_point<std::chrono::system_clock>(mc);
-  auto expect =
-      fmt::format("[{:%Y.%m.%d %H:%M:}{:%S}] {}: {}\n", tp, mc,
-                  ips::logger::to_string(rec.getSeverity()), rec.getBuffer());
+  std::string expect;
+  expect.reserve(rec.getBuffer().size() + 32);
+  fmt::format_to(std::back_inserter(expect), "[{}|{}] ",
+                 details::utils::to_string(rec.getTimestamp()),
+                 to_string(rec.getSeverity()));
+  expect += rec.getBuffer() + "\n";
+
   CHECK(assert == expect);
 }
 

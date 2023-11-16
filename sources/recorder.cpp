@@ -15,7 +15,7 @@ constexpr static std::size_t kBufferSize = 1024;
 Recorder::Recorder(id_t id, Severity severity, level_t level)
     : severity_(severity), level_(level), id_(std::move(id)) {
   buffer_.reserve(kBufferSize);
-  timestamp_ = std::chrono::system_clock::now().time_since_epoch().count();
+  timestamp_ = std::chrono::system_clock::now();
 }
 
 Recorder::~Recorder() { details::Storage::instance().write(*this); }
@@ -76,4 +76,6 @@ level_t Recorder::getLevel() const noexcept { return level_; }
 
 std::string_view Recorder::getId() const noexcept { return id_; }
 
-std::string_view Recorder::getBuffer() const noexcept { return buffer_; }
+const Recorder::message_buffer_t& Recorder::getBuffer() const noexcept {
+  return buffer_;
+}
