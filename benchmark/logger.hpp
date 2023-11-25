@@ -15,31 +15,37 @@
 
 namespace logger {
 // ipslog
+constexpr auto kIpslogFilename = "ipslog.log";
+constexpr auto kIpslogBasicId = "ipslog";
+constexpr auto kSpdlogFilename = "spdlog.log";
+constexpr auto kSpdlogBasicId = "basic_logger";
+
 [[maybe_unused]] static void ipslog_file_setup(const benchmark::State&) {
-  ipslog::init::file("trace", "ipslog.log", ips::logger::Severity::kAll);
+  ipslog::init::file(kIpslogBasicId, kIpslogFilename,
+                     ips::logger::Severity::kAll);
 }
 [[maybe_unused]] static void ipslog_file_teardown(const benchmark::State&) {
-  std::remove("ipslog.log");
+  std::remove(kIpslogFilename);
 }
 
 [[maybe_unused]] static void ipslog_file(benchmark::State& state) {
   for ([[maybe_unused]] auto _ : state) {
-    ipslog::info(1, "trace") << "some logger string #" << 1;
+    ipslog::info(1, kIpslogBasicId) << "some logger string #" << 1;
   }
 }
 
 // spdlog
 [[maybe_unused]] static void spdlog_file_setup(const benchmark::State&) {
-  spdlog::basic_logger_mt("basic_logger", "spdlog.log");
+  spdlog::basic_logger_mt(kSpdlogBasicId, kSpdlogFilename);
 }
 [[maybe_unused]] static void spdlog_file_teardown(const benchmark::State&) {
-  spdlog::drop("basic_logger");
-  std::remove("spdlog.log");
+  spdlog::drop(kSpdlogBasicId);
+  std::remove(kSpdlogFilename);
 }
 
 [[maybe_unused]] static void spdlog_file(benchmark::State& state) {
   for ([[maybe_unused]] auto _ : state) {
-    spdlog::get("basic_logger")->info("some logger string #{}", 1);
+    spdlog::get(kSpdlogBasicId)->info("some logger string #{}", 1);
   }
 }
 
