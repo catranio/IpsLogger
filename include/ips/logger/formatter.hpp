@@ -10,8 +10,8 @@ class Formatter {
  public:
   virtual ~Formatter() = default;
 
-  [[nodiscard]] virtual std::string fmt(
-      const Recorder& recorder) const noexcept = 0;
+  virtual void fmt(const Recorder& recorder,
+                   std::string& dest) const noexcept = 0;
 };
 }  // namespace ips::logger
 

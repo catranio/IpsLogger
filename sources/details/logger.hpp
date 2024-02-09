@@ -16,8 +16,8 @@ class Logger {
     kRange,
   };
 
-  using writer_t = std::unique_ptr<Writer>;
-  using formatter_t = std::unique_ptr<Formatter>;
+  using writer_t = std::shared_ptr<Writer>;
+  using formatter_t = std::shared_ptr<Formatter>;
 
   Logger(std::string_view id, Severity severity, writer_t&& writer,
          formatter_t&& formatter, level_t maxLevel = 10,

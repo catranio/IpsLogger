@@ -6,8 +6,7 @@
 namespace ips::logger::details {
 class DateFormatter : public Formatter {
  public:
-  [[nodiscard]] std::string fmt(
-      const Recorder& recorder) const noexcept override;
+  void fmt(const Recorder& recorder, std::string& dest) const noexcept override;
 };
 }  // namespace ips::logger::details
 

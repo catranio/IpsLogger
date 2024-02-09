@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.25)
 project(logger)
 set(PROJECT_NAMESPACE ips)
 
@@ -26,3 +26,5 @@ endif ()
 if (BUILD_BENCHMARK)
     add_subdirectory(benchmark)
 endif ()
+
+add_subdirectory(playground)

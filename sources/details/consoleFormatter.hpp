@@ -6,7 +6,7 @@
 namespace ips::logger::details {
 class ConsoleFormatter : public DateFormatter {
  public:
-  std::string fmt(const Recorder& recorder) const noexcept final;
+  void fmt(const Recorder& recorder, std::string& dest) const noexcept final;
 };
 }  // namespace ips::logger::details
 

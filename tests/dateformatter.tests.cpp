@@ -18,7 +18,8 @@ TEST_CASE("dateformatter") {
   const details::DateFormatter df;
   Recorder rec{"", severity, level};
   rec << message;
-  auto assert = df.fmt(rec);
+  std::string assert;
+  df.fmt(rec, assert);
 
   std::string expect;
   expect.reserve(rec.getBuffer().size() + 32);

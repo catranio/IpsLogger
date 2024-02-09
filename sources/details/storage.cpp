@@ -1,5 +1,7 @@
 #include "storage.hpp"
 
+#include <mutex>
+
 namespace ips::logger::details {
 
 Storage& Storage::instance() noexcept {
@@ -26,15 +28,18 @@ void Storage::remove(const id_t& id) noexcept {
 
 void Storage::write(const Recorder& recorder) noexcept {
   const auto id = recorder.getId();
-  const std::scoped_lock lock{mutex_};
+  std::shared_lock lock{mutex_};
   const auto cit = storage_.find(id);
   if (cit == storage_.end() || !isWrite(recorder, cit->second)) {
     return;
   }
 
-  const auto& logger = cit->second;
-  const auto msg = logger.getFormatter().fmt(recorder);
-  logger.getWriter().write(msg);
+  const auto logger = cit->second;
+  lock.unlock();
+  std::string buffer;
+  buffer.reserve(250);
+  logger.getFormatter().fmt(recorder, buffer);
+  logger.getWriter().write(buffer);
 }
 
 bool Storage::isWrite(const Recorder& recorder, const Logger& logger) noexcept {

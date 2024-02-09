@@ -17,16 +17,16 @@ namespace ips::logger {
                                               seconds_t seconds) noexcept {
   details::Storage::instance().add(
       {id, severity,
-       std::make_unique<details::FileWriter>(filename,
+       std::make_shared<details::FileWriter>(filename,
                                              std::chrono::seconds{seconds}),
-       std::make_unique<details::DateFormatter>(), maxLevel});
+       std::make_shared<details::DateFormatter>(), maxLevel});
 }
 
 [[maybe_unused]] void ips::logger::init::console(Severity severity,
                                                  level_t maxLevel) noexcept {
   details::Storage::instance().add(
-      {kConsoleId, severity, std::make_unique<details::StreamWriter>(std::cout),
-       std::make_unique<details::ConsoleFormatter>(), maxLevel});
+      {kConsoleId, severity, std::make_shared<details::StreamWriter>(std::cout),
+       std::make_shared<details::ConsoleFormatter>(), maxLevel});
 }
 
 [[maybe_unused]] void ips::logger::init::erase(const id_t& id) noexcept {

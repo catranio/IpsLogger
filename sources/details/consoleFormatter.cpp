@@ -10,7 +10,8 @@
 
 namespace ips::logger::details {
 
-std::string ConsoleFormatter::fmt(const Recorder& recorder) const noexcept {
+void ConsoleFormatter::fmt(const Recorder& recorder,
+                           std::string& dest) const noexcept {
   fmt::color color;
   switch (recorder.getSeverity()) {
     using enum Severity;
@@ -36,14 +37,14 @@ std::string ConsoleFormatter::fmt(const Recorder& recorder) const noexcept {
       break;
   }
 
-  std::string buffer;
-  buffer.reserve(recorder.getBuffer().size() + 32);
+  dest.reserve(recorder.getBuffer().size() + 32);
   fmt::format_to(
-      std::back_inserter(buffer), "[{}|{}] ",
+      std::back_inserter(dest), "[{}|{}] ",
       utils::to_string(recorder.getTimestamp()),
       fmt::format(fg(color), "{}", to_string(recorder.getSeverity())));
-  buffer += recorder.getBuffer() + "\n";
-  return buffer;
+  dest.append(recorder.getBuffer().data(),
+              recorder.getBuffer().data() + recorder.getBuffer().size());
+  dest.append("\n");
 }
 
 }  // namespace ips::logger::details

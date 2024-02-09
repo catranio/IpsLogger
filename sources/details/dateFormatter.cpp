@@ -9,14 +9,17 @@
 
 namespace ips::logger::details {
 
-std::string DateFormatter::fmt(const Recorder& recorder) const noexcept {
-  std::string buffer;
-  buffer.reserve(recorder.getBuffer().size() + 32);
-  fmt::format_to(std::back_inserter(buffer), "[{}|{}] ",
-                 utils::to_string(recorder.getTimestamp()),
-                 to_string(recorder.getSeverity()));
-  buffer += recorder.getBuffer() + "\n";
-  return buffer;
+void DateFormatter::fmt(const Recorder& recorder,
+                        std::string& dest) const noexcept {
+  const auto datetime = utils::to_string(recorder.getTimestamp());
+  const auto severity = to_string(recorder.getSeverity());
+  dest.reserve(recorder.getBuffer().size() + severity.size() + datetime.size());
+  dest += "[";
+  dest += datetime;
+  dest += "|";
+  dest += severity;
+  dest += "] ";
+  dest += recorder.getBuffer() + "\n";
 }
 
 }  // namespace ips::logger::details

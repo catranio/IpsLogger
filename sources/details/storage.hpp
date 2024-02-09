@@ -2,7 +2,7 @@
 #define IPSLOGGER_DETAILS_STORAGE_HPP
 
 #include <ips/logger/recorder.hpp>
-#include <mutex>
+#include <shared_mutex>
 #include <string_view>
 #include <unordered_map>
 #include <vector>
@@ -43,7 +43,7 @@ class Storage final {
   };
   using storage_t =
       std::unordered_map<std::string, Logger, string_hash, std::equal_to<>>;
-  using mutex_t = std::mutex;
+  using mutex_t = std::shared_mutex;
   storage_t storage_;
   mutex_t mutex_;
 };
