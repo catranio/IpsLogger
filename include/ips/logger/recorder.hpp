@@ -1,8 +1,11 @@
 #ifndef IPSLOGGER_RECORDER_HPP
 #define IPSLOGGER_RECORDER_HPP
 
+#include <fmt/format.h>
+
 #include <chrono>
 #include <concepts>
+#include <iostream>
 #include <string>
 
 #include "definitions.hpp"
@@ -38,6 +41,11 @@ class Recorder final {
 
   Recorder& operator<<(const std::derived_from<std::exception> auto& value) {
     return *this << static_cast<const std::exception&>(value);
+  }
+  
+  template <typename... Args>
+  Recorder& operator()(fmt::format_string<Args...> fmt, Args&&... args) {
+    return *this << fmt::format(fmt, std::forward<Args>(args)...);
   }
 
   template <class T>

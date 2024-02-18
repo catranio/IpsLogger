@@ -152,6 +152,12 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
     getRecorder() << value;
     CHECK(getRecorder().getBuffer() == value);
   }
+
+  SUBCASE("fmt_format") {
+    auto value = 42;
+    getRecorder()("fmt: {}", value);
+    CHECK(getRecorder().getBuffer() == "fmt: 42");
+  }
 }
 
 TEST_SUITE_END();
