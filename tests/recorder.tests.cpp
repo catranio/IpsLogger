@@ -9,8 +9,6 @@
 
 class RecorderFixture {
  public:
-  RecorderFixture() = default;
-
   template <typename T>
   void check_value(const T& value, const std::string_view expected) {
     recorder_ << value;
@@ -100,8 +98,6 @@ TEST_CASE("correct constructor name") {
   CHECK(rec.getTimestamp() <= secondTimestamp);
 }
 
-TEST_SUITE_END();
-
 TEST_CASE_FIXTURE(RecorderFixture, "format") {
   SUBCASE("unsigned") { check_numeric_value<unsigned>(); }
 
@@ -123,11 +119,11 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
 
   SUBCASE("char") {
     SUBCASE("min") {
-      auto value = std::numeric_limits<char>::min();
+      const auto value = std::numeric_limits<char>::min();
       check_value(value, std::string{value});
     }
     SUBCASE("max") {
-      auto value = std::numeric_limits<char>::max();
+      const auto value = std::numeric_limits<char>::max();
       check_value(value, std::string{value});
     }
   }
@@ -138,19 +134,18 @@ TEST_CASE_FIXTURE(RecorderFixture, "format") {
   }
 
   SUBCASE("exception") {
-    getRecorder() << std::runtime_error{"runtime error"};
-    CHECK(getRecorder().getBuffer() == "runtime error");
+    const auto value = std::string{"runtime error"};
+    check_value(std::runtime_error{value}, value);
   }
 
   SUBCASE("string") {
-    auto value = std::string{"foo"};
+    const auto value = std::string{"foo"};
     check_value(value, value);
   }
 
   SUBCASE("string_view") {
-    auto value = std::string_view{"baz"};
-    getRecorder() << value;
-    CHECK(getRecorder().getBuffer() == value);
+    const auto value = std::string_view{"baz"};
+    check_value(value, value);
   }
 }
 
