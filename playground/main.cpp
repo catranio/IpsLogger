@@ -9,13 +9,13 @@ int main() {
       1, static_cast<unsigned>(ips::logger::Severity::kDebug)};
 
   ipslog::init::console(ips::logger::Severity::kAll);
-  std::ranges::for_each(
-      std::views::iota(1u, 120u), [&dist, &gen](const auto idx) noexcept {
-        const auto sev = static_cast<ips::logger::Severity>(dist(gen));
-        ipslog::log(sev, 4)
-            << "This specialization of std::ranges::enable_borrowed_range "
-               "makes iota_view satisfy borrowed_range."
-            << idx;
-      });
+  // std::ranges::for_each(
+  //     std::views::iota(1u, 120u), [&dist, &gen](const auto idx) noexcept {
+  //       const auto sev = static_cast<ips::logger::Severity>(dist(gen));
+  //       ipslog::log(sev, 4)
+  //           << "This specialization of std::ranges::enable_borrowed_range "
+  //              "makes iota_view satisfy borrowed_range."
+  //           << idx;
+  //     });
   return 0;
 }

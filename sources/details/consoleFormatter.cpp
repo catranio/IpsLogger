@@ -6,9 +6,6 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
-#include "dateFormatter.hpp"
-#include "utils.hpp"
-
 namespace ips::logger::details {
 
 void ConsoleFormatter::fmt(const Recorder& recorder,
@@ -30,7 +27,7 @@ void ConsoleFormatter::fmt(const Recorder& recorder,
     color = dim_gray;
   }
 
-  const auto datetime = utils::to_string(recorder.getTimestamp());
+  const auto datetime = dataChacher_.to_string(recorder.getTimestamp());
   const auto location = recorder.getSourceLocation();
   std::string_view filename = location.file_name();
   filename.remove_prefix(filename.find_last_of('/') + 1);

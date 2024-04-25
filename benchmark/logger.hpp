@@ -21,7 +21,7 @@ constexpr auto kSpdlogBasicId = "basic_logger";
                      ips::logger::Severity::kAll);
 }
 [[maybe_unused]] static void ipslogFileTeardown(const benchmark::State&) {
-  std::remove(kIpslogFilename);
+  // std::remove(kIpslogFilename);
 }
 
 [[maybe_unused]] static void ipslogFile(benchmark::State& state) {
@@ -37,7 +37,7 @@ constexpr auto kSpdlogBasicId = "basic_logger";
 }
 [[maybe_unused]] static void spdlogFileTeardown(const benchmark::State&) {
   spdlog::drop(kSpdlogBasicId);
-  std::remove(kSpdlogFilename);
+  // std::remove(kSpdlogFilename);
 }
 
 [[maybe_unused]] static void spdlogFile(benchmark::State& state) {

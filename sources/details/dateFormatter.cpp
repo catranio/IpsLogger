@@ -12,6 +12,9 @@ namespace ips::logger::details {
 void DateFormatter::fmt(const Recorder& recorder,
                         std::string& dest) const noexcept {
   const auto datetime = utils::to_string(recorder.getTimestamp());
+  // to longer work
+  // const auto datetime = dataChacher_.to_string(recorder.getTimestamp());
+
   const auto severity = to_string(recorder.getSeverity());
   const auto location = recorder.getSourceLocation();
   std::string_view filename = location.file_name();

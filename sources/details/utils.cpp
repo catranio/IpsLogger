@@ -31,3 +31,21 @@ std::string ips::logger::details::utils::to_string(
   toChars(20 + kFractionalWidth, hms.subseconds().count());
   return buffer;
 }
+
+std::string ips::logger::details::utils::to_string_tail(std::chrono::system_clock::time_point tp) noexcept {
+  const auto tpl = date::local_days{} + (tp - std::chrono::sys_days{});
+  const auto tpd = std::chrono::floor<std::chrono::days>(tpl);
+  const auto ymd [[maybe_unused]] = date::year_month_day{tpd};
+  const auto hms = date::hh_mm_ss{tpl - tpd};
+  constexpr auto kFractionalWidth = decltype(hms)::fractional_width;
+  std::string buffer(kFractionalWidth, '0');
+  auto toChars = [&buffer](const auto shift, std::integral auto x) {
+    auto* p = buffer.data() + shift;
+    do {
+      *--p = static_cast<char>(x % 10 + '0');
+      x /= 10;
+    } while (x != 0);
+  };
+  toChars(kFractionalWidth, hms.subseconds().count());
+  return buffer;
+}

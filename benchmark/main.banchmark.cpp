@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 
 #include "logger.hpp"
+#include "time_convertion.hpp"
 
 int main(int argc, char** argv) {
   // ipslog file
@@ -44,6 +45,20 @@ int main(int argc, char** argv) {
       ->Setup(logger::spdlogFileSetup)
       ->Teardown(logger::spdlogFileTeardown)
       ->Threads(18);
+
+  // helper
+  RegisterBenchmark("details/tp2sec/hmdata",
+        logger::details::hmdataTimePointToSeconds)
+      ->Threads(1);
+  RegisterBenchmark("details/tp2sec/chrono",
+        logger::details::chronoTimePointToSeconds)
+      ->Threads(1);
+  RegisterBenchmark("details/tp2string/hmdate",
+        logger::details::timepointToSting)
+      ->Threads(1);
+  RegisterBenchmark("details/tp2string-chahed/hmdate",
+        logger::details::timepointToStingChahed)
+      ->Threads(1);
 
   // initialize
   benchmark::Initialize(&argc, argv);

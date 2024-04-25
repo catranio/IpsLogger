@@ -35,6 +35,7 @@ void Storage::write(const Recorder& recorder) noexcept {
   const auto logger = cit->second;
   lock.unlock();
   std::string buffer;
+  // constexpr auto kReserveBufferSize = 256;
   buffer.reserve(250);
   logger.getFormatter().fmt(recorder, buffer);
   logger.getWriter().write(buffer);
