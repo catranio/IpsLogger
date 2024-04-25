@@ -12,16 +12,14 @@ Storage& Storage::instance() noexcept {
 void Storage::add(Logger&& logger) noexcept {
   const auto id = logger.getId();
   const std::scoped_lock lock{mutex_};
-  auto it = storage_.find(id);
-  if (it == storage_.end()) {
-    storage_.try_emplace(id_t{id}, std::move(logger));
+  if (const auto it = storage_.find(id); it == storage_.end()) {
+    storage_.try_emplace(std::string{id}, std::move(logger));
   }
 }
 
-void Storage::remove(const id_t& id) noexcept {
+void Storage::remove(const Id id) noexcept {
   const std::scoped_lock lock{mutex_};
-  auto it = storage_.find(id);
-  if (it != storage_.end()) {
+  if (const auto it = storage_.find(id); it != storage_.end()) {
     storage_.erase(it);
   }
 }

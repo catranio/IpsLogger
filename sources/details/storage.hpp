@@ -11,7 +11,6 @@
 
 namespace ips::logger::details {
 class Storage final {
- private:
   Storage() = default;
   ~Storage() = default;
 
@@ -23,7 +22,7 @@ class Storage final {
 
   static Storage& instance() noexcept;
   void add(Logger&& logger) noexcept;
-  void remove(const id_t& id) noexcept;
+  void remove(Id id) noexcept;
   void write(const Recorder& recorder) noexcept;
 
  private:
@@ -34,18 +33,17 @@ class Storage final {
     using is_transparent [[maybe_unused]] = void;
 
     std::size_t operator()(const char* str) const { return hash_type{}(str); }
-    std::size_t operator()(std::string_view str) const {
+    std::size_t operator()(const std::string_view str) const {
       return hash_type{}(str);
     }
     std::size_t operator()(const std::string& str) const {
       return hash_type{}(str);
     }
   };
-  using storage_t =
-      std::unordered_map<std::string, Logger, string_hash, std::equal_to<>>;
-  using mutex_t = std::shared_mutex;
-  storage_t storage_;
-  mutex_t mutex_;
+
+  std::unordered_map<std::string, Logger, string_hash, std::equal_to<>>
+      storage_;
+  std::shared_mutex mutex_;
 };
 }  // namespace ips::logger::details
 

@@ -128,3 +128,7 @@ CheckOptions:
   - { key: readability-identifier-length.IgnoredVariableNames,            value: 'i|j|it|ip|os' }
   - { key: readability-identifier-length.IgnoredParameterNames,           value: 'i|j|it|ip|os' }
   - { key: readability-identifier-length.IgnoredLoopCounterNames,         value: 'i|j|it|ip|os' }
+  - { key: readability-identifier-naming.FunctionIgnoredRegexp,           value: 'to_string|' }
+  - { key: readability-identifier-naming.TypeAliasIgnoredRegexp,          value: 'is_transparent|hash_type' }
+  - { key: readability-identifier-naming.TypeAliasIgnoredRegexp,          value: 'is_transparent|hash_type' }
+  - { key: readability-identifier-naming.StructIgnoredRegexp,             value: 'string_hash' }

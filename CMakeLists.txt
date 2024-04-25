@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.25)
 project(logger)
 set(PROJECT_NAMESPACE ips)
 
+add_link_options(-lstdc++ -lm)
+
 include(FetchContent)
 FetchContent_Declare(IpsCMakeModules
         GIT_REPOSITORY https://github.com/catranio/IpsCMakeModules.git)
@@ -25,4 +27,8 @@ endif ()
 
 if (BUILD_BENCHMARK)
     add_subdirectory(benchmark)
+endif ()
+
+if (BUILD_PLAYGROUND)
+    add_subdirectory(playground)
 endif ()

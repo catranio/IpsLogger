@@ -1,11 +1,12 @@
 #ifndef IPSLOGGER_DEFINITIONS_HPP
 #define IPSLOGGER_DEFINITIONS_HPP
 
+#include <cstdint>
 #include <iosfwd>
 #include <string_view>
 
 namespace ips::logger {
-enum class Severity {
+enum class Severity : std::uint8_t {
   kNone,
   kFatal,
   kError,
@@ -16,16 +17,16 @@ enum class Severity {
   kAll,
 };
 
-using level_t = unsigned;
-using id_t = std::string;
-using seconds_t = unsigned;
+using Level = unsigned;
+using Id = std::string_view;
+using Seconds = unsigned;
 
-constexpr static level_t kMaxLevelDefault = 10;
-constexpr static level_t kLevelDefault = 3;
-constexpr static const char* kConsoleId = "__ips_console_id__";
-constexpr static seconds_t kTimeRotateDefault = 0;
+constexpr static Level kMaxLevelDefault = 10;
+constexpr static Level kLevelDefault = 3;
+constexpr static std::string_view kConsoleId = "__ips_console_id__";
+constexpr static Seconds kTimeRotateDefault = 0;
 
-constexpr std::string_view to_string(Severity severity) noexcept {
+constexpr std::string_view to_string(const Severity severity) noexcept {
   using enum Severity;
   switch (severity) {
     case kFatal:

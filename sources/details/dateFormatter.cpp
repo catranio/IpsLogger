@@ -13,13 +13,14 @@ void DateFormatter::fmt(const Recorder& recorder,
                         std::string& dest) const noexcept {
   const auto datetime = utils::to_string(recorder.getTimestamp());
   const auto severity = to_string(recorder.getSeverity());
-  dest.reserve(recorder.getBuffer().size() + severity.size() + datetime.size());
-  dest += "[";
-  dest += datetime;
-  dest += "|";
-  dest += severity;
-  dest += "] ";
-  dest += recorder.getBuffer() + "\n";
+  const auto location = recorder.getSourceLocation();
+  std::string_view filename = location.file_name();
+  filename.remove_prefix(filename.find_last_of('/') + 1);
+  fmt::format_to(std::back_inserter(dest), "[{}|{}({})|{}] ", datetime,
+                 filename, location.line(), severity);
+  dest.append(recorder.getBuffer().data(),
+              recorder.getBuffer().data() + recorder.getBuffer().size());
+  dest.append("\n");
 }
 
 }  // namespace ips::logger::details

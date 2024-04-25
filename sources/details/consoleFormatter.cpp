@@ -6,45 +6,39 @@
 #include <ips/logger/definitions.hpp>
 #include <ips/logger/recorder.hpp>
 
+#include "dateFormatter.hpp"
 #include "utils.hpp"
 
 namespace ips::logger::details {
 
 void ConsoleFormatter::fmt(const Recorder& recorder,
                            std::string& dest) const noexcept {
-  fmt::color color;
-  switch (recorder.getSeverity()) {
-    using enum Severity;
-    using enum fmt::color;
-    case kFatal:
-    case kError:
-      color = indian_red;
-      break;
-    case kWarning:
-      color = dark_golden_rod;
-      break;
-    case kInfo:
-      color = cornflower_blue;
-      break;
-    case kTrace:
-      color = light_gray;
-      break;
-    case kDebug:
-      color = dim_gray;
-      break;
-    default:
-      color = white;
-      break;
+  auto color = fmt::color::light_gray;
+
+  const auto severity = recorder.getSeverity();
+  using enum Severity;
+  using enum fmt::color;
+  if (severity == kFatal || severity == kError) {
+    color = indian_red;
+  } else if (severity == kWarning) {
+    color = dark_golden_rod;
+  } else if (severity == kInfo) {
+    color = cornflower_blue;
+  } else if (severity == kTrace) {
+    color = light_gray;
+  } else if (severity == kDebug) {
+    color = dim_gray;
   }
 
-  dest.reserve(recorder.getBuffer().size() + 32);
+  const auto datetime = utils::to_string(recorder.getTimestamp());
+  const auto location = recorder.getSourceLocation();
+  std::string_view filename = location.file_name();
+  filename.remove_prefix(filename.find_last_of('/') + 1);
   fmt::format_to(
-      std::back_inserter(dest), "[{}|{}] ",
-      utils::to_string(recorder.getTimestamp()),
-      fmt::format(fg(color), "{}", to_string(recorder.getSeverity())));
-  dest.append(recorder.getBuffer().data(),
-              recorder.getBuffer().data() + recorder.getBuffer().size());
-  dest.append("\n");
+      std::back_inserter(dest), "{} {}\n",
+      fmt::format(fg(color), "[{}|{}({})|{}]", datetime, filename,
+                  location.line(), to_string(recorder.getSeverity())),
+      recorder.getBuffer());
 }
 
 }  // namespace ips::logger::details

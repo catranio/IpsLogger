@@ -7,25 +7,23 @@
 #include <string>
 
 namespace ips::logger::details {
-class FileWriter : public Writer {
+class FileWriter final : public Writer {
  public:
   explicit FileWriter(std::string_view filename,
                       std::chrono::seconds intervalRotate = {});
 
   ~FileWriter() override;
 
-  void write(std::string_view data) noexcept final;
+  void write(std::string_view data) noexcept override;
 
  private:
   void rotate() noexcept;
   bool open(std::string_view filename) noexcept;
   std::string dataPrefix() const noexcept;
 
- private:
-  using seconds_t = std::chrono::seconds;
   std::ofstream file_;
   std::string filename_;
-  seconds_t intervalRotate_;
+  std::chrono::seconds intervalRotate_;
 };
 }  // namespace ips::logger::details
 

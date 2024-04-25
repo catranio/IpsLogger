@@ -1,44 +1,49 @@
 #include <benchmark/benchmark.h>
 
-#include <ranges>
-#include <thread>
-
 #include "logger.hpp"
 
 int main(int argc, char** argv) {
   // ipslog file
-  benchmark::RegisterBenchmark("file/ipslog", logger::ipslog_file)
-      ->Setup(logger::ipslog_file_setup)
-      ->Teardown(logger::ipslog_file_teardown);
-  benchmark::RegisterBenchmark("file/ipslog", logger::ipslog_file)
-      ->Setup(logger::ipslog_file_setup)
-      ->Teardown(logger::ipslog_file_teardown)
+  RegisterBenchmark("file/ipslog", logger::ipslogFile)
+      ->Setup(logger::ipslogFileSetup)
+      ->Teardown(logger::ipslogFileTeardown);
+  RegisterBenchmark("file/ipslog", logger::ipslogFile)
+      ->Setup(logger::ipslogFileSetup)
+      ->Teardown(logger::ipslogFileTeardown)
       ->Threads(2);
-  benchmark::RegisterBenchmark("file/ipslog", logger::ipslog_file)
-      ->Setup(logger::ipslog_file_setup)
-      ->Teardown(logger::ipslog_file_teardown)
+  RegisterBenchmark("file/ipslog", logger::ipslogFile)
+      ->Setup(logger::ipslogFileSetup)
+      ->Teardown(logger::ipslogFileTeardown)
       ->Threads(4);
-  benchmark::RegisterBenchmark("file/ipslog", logger::ipslog_file)
-      ->Setup(logger::ipslog_file_setup)
-      ->Teardown(logger::ipslog_file_teardown)
+  RegisterBenchmark("file/ipslog", logger::ipslogFile)
+      ->Setup(logger::ipslogFileSetup)
+      ->Teardown(logger::ipslogFileTeardown)
       ->Threads(8);
+  RegisterBenchmark("file/ipslog", logger::ipslogFile)
+      ->Setup(logger::ipslogFileSetup)
+      ->Teardown(logger::ipslogFileTeardown)
+      ->Threads(18);
 
   // spdlog file
-  benchmark::RegisterBenchmark("file/spdlog", logger::spdlog_file)
-      ->Setup(logger::spdlog_file_setup)
-      ->Teardown(logger::spdlog_file_teardown);
-  benchmark::RegisterBenchmark("file/spdlog", logger::spdlog_file)
-      ->Setup(logger::spdlog_file_setup)
-      ->Teardown(logger::spdlog_file_teardown)
+  RegisterBenchmark("file/spdlog", logger::spdlogFile)
+      ->Setup(logger::spdlogFileSetup)
+      ->Teardown(logger::spdlogFileTeardown);
+  RegisterBenchmark("file/spdlog", logger::spdlogFile)
+      ->Setup(logger::spdlogFileSetup)
+      ->Teardown(logger::spdlogFileTeardown)
       ->Threads(2);
-  benchmark::RegisterBenchmark("file/spdlog", logger::spdlog_file)
-      ->Setup(logger::spdlog_file_setup)
-      ->Teardown(logger::spdlog_file_teardown)
+  RegisterBenchmark("file/spdlog", logger::spdlogFile)
+      ->Setup(logger::spdlogFileSetup)
+      ->Teardown(logger::spdlogFileTeardown)
       ->Threads(4);
-  benchmark::RegisterBenchmark("file/spdlog", logger::spdlog_file)
-      ->Setup(logger::spdlog_file_setup)
-      ->Teardown(logger::spdlog_file_teardown)
+  RegisterBenchmark("file/spdlog", logger::spdlogFile)
+      ->Setup(logger::spdlogFileSetup)
+      ->Teardown(logger::spdlogFileTeardown)
       ->Threads(8);
+  RegisterBenchmark("file/spdlog", logger::spdlogFile)
+      ->Setup(logger::spdlogFileSetup)
+      ->Teardown(logger::spdlogFileTeardown)
+      ->Threads(18);
 
   // initialize
   benchmark::Initialize(&argc, argv);

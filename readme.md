@@ -51,7 +51,7 @@ int main()
 #include <ips/logger/log.hpp>
 
 namespace ips::logger {
-    inline Recorder custom_trace(level_t level) {
+    inline Recorder custom_trace(Level level) {
         return Recorder{"logger.id", Severity::kTrace, level};
     }
 }

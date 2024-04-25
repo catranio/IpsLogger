@@ -3,6 +3,7 @@
 
 #ifndef IPS_LOGGER_ERASE
 #define IPS_LOGGER_ERASE false
+#include <source_location>
 #endif /* IPS_LOGGER_ERASE */
 
 #define ipslog            \
@@ -21,48 +22,53 @@
 #include <ips/logger/writer.hpp>
 
 namespace ips::logger::init {
-[[maybe_unused]] void file(const id_t& id, const std::string& filename,
-                           Severity severity,
-                           level_t maxLevel = kMaxLevelDefault,
-                           seconds_t seconds = kTimeRotateDefault) noexcept;
+[[maybe_unused]] void file(Id id, const std::string& filename,
+                           Severity severity, Level maxLevel = kMaxLevelDefault,
+                           Seconds seconds = kTimeRotateDefault) noexcept;
 
 [[maybe_unused]] void console(Severity severity,
-                              level_t maxLevel = kMaxLevelDefault) noexcept;
+                              Level maxLevel = kMaxLevelDefault) noexcept;
 
-[[maybe_unused]] void erase(const id_t& id) noexcept;
+[[maybe_unused]] void erase(Id id) noexcept;
 }  // namespace ips::logger::init
 
 namespace ips::logger {
-[[maybe_unused]] inline Recorder log(Severity severity,
-                                     level_t level = kLevelDefault,
-                                     const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder log(
+    Severity severity, Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder fatal(level_t level = kLevelDefault,
-                                const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder fatal(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder error(level_t level = kLevelDefault,
-                                const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder error(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder warning(level_t level = kLevelDefault,
-                                  const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder warning(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder info(level_t level = kLevelDefault,
-                               const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder info(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder trace(level_t level = kLevelDefault,
-                                const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder trace(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
-[[maybe_unused]] Recorder debug(level_t level = kLevelDefault,
-                                const id_t& id = kConsoleId) noexcept;
+[[maybe_unused]] Recorder debug(
+    Level level = kLevelDefault, Id id = kConsoleId,
+    std::source_location location = std::source_location::current()) noexcept;
 
 }  // namespace ips::logger
 
 /* generate ipslog custom function */
-#define ipslog_gen_func(name, postfix, severity)                    \
-  namespace ips::logger {                                           \
-  inline Recorder name##_##postfix(level_t level = kLevelDefault) { \
-    return Recorder{#name, Severity::severity, level};              \
-  };                                                                \
+#define ipslog_gen_func(name, postfix, severity)                  \
+  namespace ips::logger {                                         \
+  inline Recorder name##_##postfix(Level level = kLevelDefault) { \
+    return Recorder{#name, Severity::severity, level};            \
+  };                                                              \
   };
 
 #define ipslog_gen_funcs(name)              \

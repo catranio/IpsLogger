@@ -58,7 +58,7 @@ class RecorderFixture {
  private:
   static constexpr ips::logger::Severity kSeverity =
       ips::logger::Severity::kDebug;
-  static constexpr ips::logger::level_t kLevel = ips::logger::level_t{6};
+  static constexpr ips::logger::Level kLevel = ips::logger::Level{6};
   ips::logger::Recorder recorder_ = {"", kSeverity, kLevel};
 };
 
@@ -67,7 +67,7 @@ TEST_SUITE_BEGIN("recorder");
 TEST_CASE("correct constructor severity") {
   using namespace ips::logger;
   auto severity = Severity::kDebug;
-  auto level = level_t{6};
+  auto level = Level{6};
 
   auto firstTimestamp = std::chrono::system_clock::now();
   auto rec = Recorder{"", severity, level};
@@ -84,7 +84,7 @@ TEST_CASE("correct constructor severity") {
 TEST_CASE("correct constructor name") {
   using namespace ips::logger;
   auto id = std::string{"alarm.cdr"};
-  auto level = level_t{6};
+  auto level = Level{6};
 
   auto firstTimestamp = std::chrono::system_clock::now();
   auto rec = Recorder{id, Severity::kTrace, level};

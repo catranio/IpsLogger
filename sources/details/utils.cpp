@@ -10,11 +10,11 @@ std::string ips::logger::details::utils::to_string(
   const auto hms = date::hh_mm_ss{tpl - tpd};
   constexpr auto kFractionalWidth = decltype(hms)::fractional_width;
   std::string buffer(20 + kFractionalWidth, '0');
-  auto ptr = buffer.data();
-  auto to_chars = [&buffer](std::size_t shift, std::integral auto x) {
+  auto* const ptr = buffer.data();
+  auto toChars = [&buffer](const auto shift, std::integral auto x) {
     auto* p = buffer.data() + shift;
     do {
-      *--p = static_cast<char>((x % 10) + '0');
+      *--p = static_cast<char>(x % 10 + '0');
       x /= 10;
     } while (x != 0);
   };
@@ -22,12 +22,12 @@ std::string ips::logger::details::utils::to_string(
   *(ptr + 13) = *(ptr + 16) = ':';
   *(ptr + 10) = ' ';
   *(ptr + 20 + kFractionalWidth) = 0;
-  to_chars(4, int{ymd.year()});
-  to_chars(7, unsigned{ymd.month()});
-  to_chars(10, unsigned{ymd.day()});
-  to_chars(13, hms.hours().count());
-  to_chars(16, hms.minutes().count());
-  to_chars(19, hms.seconds().count());
-  to_chars(20 + kFractionalWidth, hms.subseconds().count());
+  toChars(4, int{ymd.year()});
+  toChars(7, unsigned{ymd.month()});
+  toChars(10, unsigned{ymd.day()});
+  toChars(13, hms.hours().count());
+  toChars(16, hms.minutes().count());
+  toChars(19, hms.seconds().count());
+  toChars(20 + kFractionalWidth, hms.subseconds().count());
   return buffer;
 }

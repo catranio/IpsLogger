@@ -3,17 +3,21 @@
 #include <fmt/format.h>
 
 #include <exception>
+#include <source_location>
 #include <string>
 #include <utility>
 
 #include "details/storage.hpp"
 
-using namespace ips::logger;
+constexpr static std::size_t kBufferSize = 512;
 
-constexpr static std::size_t kBufferSize = 1024;
-
-Recorder::Recorder(id_t id, Severity severity, level_t level)
-    : severity_(severity), level_(level), id_(std::move(id)) {
+namespace ips::logger {
+Recorder::Recorder(Id id, const Severity severity, const Level level,
+                   const std::source_location location)
+    : severity_(severity),
+      level_(level),
+      id_(std::move(id)),
+      location_(location) {
   buffer_.reserve(kBufferSize);
   timestamp_ = std::chrono::system_clock::now();
 }
@@ -55,7 +59,7 @@ Recorder& Recorder::operator<<(long long value) noexcept {
   return *this;
 }
 
-Recorder& Recorder::operator<<(bool value) noexcept {
+Recorder& Recorder::operator<<(const bool value) noexcept {
   fmt::format_to(std::back_inserter(buffer_), FMT_STRING("{}"),
                  value ? "true" : "false");
   return *this;
@@ -66,16 +70,19 @@ Recorder& Recorder::operator<<(const std::exception& value) noexcept {
   return *this;
 }
 
-ips::logger::Recorder::timestamp_t Recorder::getTimestamp() const noexcept {
+Recorder::Timstamp Recorder::getTimestamp() const noexcept {
   return timestamp_;
 }
 
 Severity Recorder::getSeverity() const noexcept { return severity_; }
 
-level_t Recorder::getLevel() const noexcept { return level_; }
+Level Recorder::getLevel() const noexcept { return level_; }
 
 std::string_view Recorder::getId() const noexcept { return id_; }
 
-const Recorder::message_buffer_t& Recorder::getBuffer() const noexcept {
-  return buffer_;
+std::source_location Recorder::getSourceLocation() const noexcept {
+  return location_;
 }
+
+const Recorder::Buffer& Recorder::getBuffer() const noexcept { return buffer_; }
+}  // namespace ips::logger

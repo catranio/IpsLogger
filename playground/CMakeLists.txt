@@ -1,0 +1,3 @@
+ips_add_target(${PROJECT_NAME}.playground EXECUTABLE
+        SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*
+        DEPENDS ${PROJECT_NAMESPACE}::${PROJECT_NAME} fmt::fmt)

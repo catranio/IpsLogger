@@ -7,3 +7,4 @@ ips_fetch(fmt GIT_REPOSITORY https://github.com/fmtlib/fmt.git GIT_TAG 10.1.1)
 ips_add_target(${PROJECT_NAME}.benchmark EXECUTABLE
         SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*
         DEPENDS ${PROJECT_NAMESPACE}::${PROJECT_NAME} benchmark::benchmark spdlog::spdlog date::date fmt::fmt)
+target_compile_options(${PROJECT_NAME}.benchmark PRIVATE -Wno-array-bounds -Wno-stringop-overflow)

@@ -129,7 +129,7 @@ ipslog::debug(10, "some.id") << "Some value " << 1;
 ```c++
 /* register */
 namespace ips::logger {
-    inline Recorder cpe_trace(level_t maxLevel) {
+    inline Recorder cpe_trace(Level maxLevel) {
         return Recorder{"cpe", Severity::kTrace, maxLevel};
     }
 }

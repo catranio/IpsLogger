@@ -4,6 +4,7 @@
 #include <chrono>
 #include <concepts>
 #include <iostream>
+#include <source_location>
 #include <string>
 
 #include "definitions.hpp"
@@ -11,10 +12,11 @@
 namespace ips::logger {
 class Recorder final {
  public:
-  using timestamp_t = std::chrono::time_point<std::chrono::system_clock>;
-  using message_buffer_t = std::string;
+  using Timstamp = std::chrono::time_point<std::chrono::system_clock>;
+  using Buffer = std::string;
 
-  Recorder(id_t id, Severity severity, level_t leve);
+  Recorder(Id id, Severity severity, Level level,
+           std::source_location location = {});
   ~Recorder();
 
   Recorder(const Recorder&) = delete;
@@ -61,18 +63,20 @@ class Recorder final {
   Recorder& operator<<(bool value) noexcept;
   Recorder& operator<<(const std::exception& value) noexcept;
 
-  [[nodiscard]] timestamp_t getTimestamp() const noexcept;
+  [[nodiscard]] Timstamp getTimestamp() const noexcept;
   [[nodiscard]] Severity getSeverity() const noexcept;
-  [[nodiscard]] level_t getLevel() const noexcept;
+  [[nodiscard]] Level getLevel() const noexcept;
   [[nodiscard]] std::string_view getId() const noexcept;
-  [[nodiscard]] const message_buffer_t& getBuffer() const noexcept;
+  [[nodiscard]] std::source_location getSourceLocation() const noexcept;
+  [[nodiscard]] const Buffer& getBuffer() const noexcept;
 
  private:
   const Severity severity_;
-  const level_t level_;
-  const id_t id_;
-  message_buffer_t buffer_;
-  timestamp_t timestamp_;
+  const Level level_;
+  const Id id_;
+  Buffer buffer_;
+  Timstamp timestamp_;
+  std::source_location location_;
 };
 }  // namespace ips::logger
 

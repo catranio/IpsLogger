@@ -2,9 +2,9 @@
 
 namespace ips::logger::details {
 
-Logger::Logger(std::string_view id, Severity severity, writer_t&& writer,
-               formatter_t&& formatter, level_t maxLevel,
-               SeverityEqualMode severityEqualMode)
+Logger::Logger(const Id id, const Severity severity, WriterSptr&& writer,
+               FormatterSptr&& formatter, const Level maxLevel,
+               const SeverityEqualMode severityEqualMode)
     : severity_(severity),
       severityEqualMode_(severityEqualMode),
       maxLevel_(maxLevel),
@@ -18,7 +18,7 @@ Logger::SeverityEqualMode Logger::getSeverityEqualMode() const noexcept {
   return severityEqualMode_;
 }
 
-level_t Logger::getMaxLevel() const noexcept { return maxLevel_; }
+Level Logger::getMaxLevel() const noexcept { return maxLevel_; }
 
 std::string_view Logger::getId() const noexcept { return id_; }
 

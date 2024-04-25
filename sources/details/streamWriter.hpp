@@ -5,11 +5,11 @@
 #include <ips/logger/writer.hpp>
 
 namespace ips::logger::details {
-class StreamWriter : public Writer {
+class StreamWriter final : public Writer {
  public:
   explicit StreamWriter(std::ostream& os);
 
-  void write(std::string_view data) noexcept final;
+  void write(std::string_view data) noexcept override;
 
  private:
   std::ostream& os_;

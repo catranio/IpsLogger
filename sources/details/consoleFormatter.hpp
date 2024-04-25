@@ -4,9 +4,9 @@
 #include "dateFormatter.hpp"
 
 namespace ips::logger::details {
-class ConsoleFormatter : public DateFormatter {
+class ConsoleFormatter final : public DateFormatter {
  public:
-  void fmt(const Recorder& recorder, std::string& dest) const noexcept final;
+  void fmt(const Recorder& recorder, std::string& dest) const noexcept override;
 };
 }  // namespace ips::logger::details
 
